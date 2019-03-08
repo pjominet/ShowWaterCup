@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ShowWaterCupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActionType">
+          <Key>
+            <PropertyRef Name="ActionTypeId" />
+          </Key>
+          <Property Name="ActionTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Character">
+          <Key>
+            <PropertyRef Name="CharacterId" />
+          </Key>
+          <Property Name="CharacterId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="CharacterId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlayerIA">
+          <Key>
+            <PropertyRef Name="AiId" />
+          </Key>
+          <Property Name="AiId" Type="int" Nullable="false" />
+          <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="ActionNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="PlayerIAStep">
+          <Key>
+            <PropertyRef Name="PlayerAIStepId" />
+          </Key>
+          <Property Name="AiId" Type="int" Nullable="false" />
+          <Property Name="ParentStepId" Type="int" />
+          <Property Name="ActionTypeId" Type="int" Nullable="false" />
+          <Property Name="PlayerAIStepId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Player__Characte__3D5E1FD2">
+          <End Role="Character" Type="Self.Character" Multiplicity="1" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterId" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="CharacterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIA__Action__4316F928">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlayerIA">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIAS__Actio__4F7CD00D">
+          <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
+          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionType">
+              <PropertyRef Name="ActionTypeId" />
+            </Principal>
+            <Dependent Role="PlayerIAStep">
+              <PropertyRef Name="ActionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIAS__Paren__5535A963">
+          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="0..1" />
+          <End Role="PlayerIAStep1" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerIAStep">
+              <PropertyRef Name="PlayerAIStepId" />
+            </Principal>
+            <Dependent Role="PlayerIAStep1">
+              <PropertyRef Name="ParentStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIASt__AiId__5441852A">
+          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="1" />
+          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerIA">
+              <PropertyRef Name="AiId" />
+            </Principal>
+            <Dependent Role="PlayerIAStep">
+              <PropertyRef Name="AiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ShowWaterCupModelStoreContainer">
+          <EntitySet Name="ActionType" EntityType="Self.ActionType" Schema="nomenclature" store:Type="Tables" />
+          <EntitySet Name="Character" EntityType="Self.Character" Schema="nomenclature" store:Type="Tables" />
+          <EntitySet Name="Player" EntityType="Self.Player" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="PlayerIA" EntityType="Self.PlayerIA" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="PlayerIAStep" EntityType="Self.PlayerIAStep" Schema="swc" store:Type="Tables" />
+          <AssociationSet Name="FK__Player__Characte__3D5E1FD2" Association="Self.FK__Player__Characte__3D5E1FD2">
+            <End Role="Character" EntitySet="Character" />
+            <End Role="Player" EntitySet="Player" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIA__Action__4316F928" Association="Self.FK__PlayerIA__Action__4316F928">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerIA" EntitySet="PlayerIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIAS__Actio__4F7CD00D" Association="Self.FK__PlayerIAS__Actio__4F7CD00D">
+            <End Role="ActionType" EntitySet="ActionType" />
+            <End Role="PlayerIAStep" EntitySet="PlayerIAStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIAS__Paren__5535A963" Association="Self.FK__PlayerIAS__Paren__5535A963">
+            <End Role="PlayerIAStep" EntitySet="PlayerIAStep" />
+            <End Role="PlayerIAStep1" EntitySet="PlayerIAStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIASt__AiId__5441852A" Association="Self.FK__PlayerIASt__AiId__5441852A">
+            <End Role="PlayerIA" EntitySet="PlayerIA" />
+            <End Role="PlayerIAStep" EntitySet="PlayerIAStep" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShowWaterCupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ActionType">
+          <Key>
+            <PropertyRef Name="ActionTypeId" />
+          </Key>
+          <Property Name="ActionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PlayerIASteps" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="ActionType" ToRole="PlayerIAStep" />
+        </EntityType>
+        <EntityType Name="Character">
+          <Key>
+            <PropertyRef Name="CharacterId" />
+          </Key>
+          <Property Name="CharacterId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Players" Relationship="Self.FK__Player__Characte__3D5E1FD2" FromRole="Character" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CharacterId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Character" Relationship="Self.FK__Player__Characte__3D5E1FD2" FromRole="Player" ToRole="Character" />
+          <NavigationProperty Name="PlayerIAs" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="Player" ToRole="PlayerIA" />
+        </EntityType>
+        <EntityType Name="PlayerIA">
+          <Key>
+            <PropertyRef Name="AiId" />
+          </Key>
+          <Property Name="AiId" Type="Int32" Nullable="false" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="ActionNumber" Type="Int32" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="PlayerIA" ToRole="Player" />
+          <NavigationProperty Name="PlayerIASteps" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerIA" ToRole="PlayerIAStep" />
+        </EntityType>
+        <EntityType Name="PlayerIAStep">
+          <Key>
+            <PropertyRef Name="PlayerAIStepId" />
+          </Key>
+          <Property Name="AiId" Type="Int32" Nullable="false" />
+          <Property Name="ParentStepId" Type="Int32" />
+          <Property Name="ActionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="PlayerAIStepId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ActionType" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="PlayerIAStep" ToRole="ActionType" />
+          <NavigationProperty Name="PlayerIA" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerIAStep" ToRole="PlayerIA" />
+          <NavigationProperty Name="PlayerIAStep1" Relationship="Self.FK__PlayerIAS__Paren__5535A963" FromRole="PlayerIAStep" ToRole="PlayerIAStep1" />
+          <NavigationProperty Name="PlayerIAStep2" Relationship="Self.FK__PlayerIAS__Paren__5535A963" FromRole="PlayerIAStep1" ToRole="PlayerIAStep" />
+        </EntityType>
+        <Association Name="FK__PlayerIAS__Actio__4F7CD00D">
+          <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
+          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionType">
+              <PropertyRef Name="ActionTypeId" />
+            </Principal>
+            <Dependent Role="PlayerIAStep">
+              <PropertyRef Name="ActionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Player__Characte__3D5E1FD2">
+          <End Role="Character" Type="Self.Character" Multiplicity="1" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Character">
+              <PropertyRef Name="CharacterId" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="CharacterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIA__Action__4316F928">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PlayerIA">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIASt__AiId__5441852A">
+          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="1" />
+          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerIA">
+              <PropertyRef Name="AiId" />
+            </Principal>
+            <Dependent Role="PlayerIAStep">
+              <PropertyRef Name="AiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerIAS__Paren__5535A963">
+          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="0..1" />
+          <End Role="PlayerIAStep1" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerIAStep">
+              <PropertyRef Name="PlayerAIStepId" />
+            </Principal>
+            <Dependent Role="PlayerIAStep1">
+              <PropertyRef Name="ParentStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ShowWaterCupEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ActionTypes" EntityType="Self.ActionType" />
+          <EntitySet Name="Characters" EntityType="Self.Character" />
+          <EntitySet Name="Players" EntityType="Self.Player" />
+          <EntitySet Name="PlayerIAs" EntityType="Self.PlayerIA" />
+          <EntitySet Name="PlayerIASteps" EntityType="Self.PlayerIAStep" />
+          <AssociationSet Name="FK__PlayerIAS__Actio__4F7CD00D" Association="Self.FK__PlayerIAS__Actio__4F7CD00D">
+            <End Role="ActionType" EntitySet="ActionTypes" />
+            <End Role="PlayerIAStep" EntitySet="PlayerIASteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Player__Characte__3D5E1FD2" Association="Self.FK__Player__Characte__3D5E1FD2">
+            <End Role="Character" EntitySet="Characters" />
+            <End Role="Player" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIA__Action__4316F928" Association="Self.FK__PlayerIA__Action__4316F928">
+            <End Role="Player" EntitySet="Players" />
+            <End Role="PlayerIA" EntitySet="PlayerIAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIASt__AiId__5441852A" Association="Self.FK__PlayerIASt__AiId__5441852A">
+            <End Role="PlayerIA" EntitySet="PlayerIAs" />
+            <End Role="PlayerIAStep" EntitySet="PlayerIASteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerIAS__Paren__5535A963" Association="Self.FK__PlayerIAS__Paren__5535A963">
+            <End Role="PlayerIAStep" EntitySet="PlayerIASteps" />
+            <End Role="PlayerIAStep1" EntitySet="PlayerIASteps" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ShowWaterCupModelStoreContainer" CdmEntityContainer="ShowWaterCupEntities">
+          <EntitySetMapping Name="ActionTypes">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.ActionType">
+              <MappingFragment StoreEntitySet="ActionType">
+                <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Characters">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.Character">
+              <MappingFragment StoreEntitySet="Character">
+                <ScalarProperty Name="CharacterId" ColumnName="CharacterId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.Player">
+              <MappingFragment StoreEntitySet="Player">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CharacterId" ColumnName="CharacterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerIAs">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.PlayerIA">
+              <MappingFragment StoreEntitySet="PlayerIA">
+                <ScalarProperty Name="AiId" ColumnName="AiId" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="ActionNumber" ColumnName="ActionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerIASteps">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.PlayerIAStep">
+              <MappingFragment StoreEntitySet="PlayerIAStep">
+                <ScalarProperty Name="AiId" ColumnName="AiId" />
+                <ScalarProperty Name="ParentStepId" ColumnName="ParentStepId" />
+                <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
+                <ScalarProperty Name="PlayerAIStepId" ColumnName="PlayerAIStepId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
