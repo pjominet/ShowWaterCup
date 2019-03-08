@@ -15,7 +15,7 @@ namespace ShowWaterCup.Controllers
         }
 
         // GET api/values/5
-        public Tournament Get(int id)
+        public TournamentInstance Get(int id)
         {
             var roundActions = new List<RoundAction>
             {
@@ -32,7 +32,7 @@ namespace ShowWaterCup.Controllers
                     Target = "I10"
                 }
             };
-            var tournament = new Tournament
+            var tournament = new TournamentInstance
             {
                 Rounds = new List<Round>
                 {

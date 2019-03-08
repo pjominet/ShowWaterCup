@@ -57,10 +57,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ShowWaterCupEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Engine\TournamentEngine.cs" />
     <Compile Include="Models\Enums\ActionType.cs" />
-    <Compile Include="Models\Round.cs" />
-    <Compile Include="Models\RoundAction.cs" />
-    <Compile Include="Models\Tournament.cs" />
+    <Compile Include="Models\Enums\Character.cs" />
+    <Compile Include="Models\Enums\Directions.cs" />
+    <Compile Include="Models\Player\PlayerAi.cs" />
+    <Compile Include="Models\Player\PlayerAiStep.cs" />
+    <Compile Include="Models\Player\PlayerInstance.cs" />
+    <Compile Include="Models\Player\PlayerPosition.cs" />
+    <Compile Include="Models\Tournament\Round.cs" />
+    <Compile Include="Models\Tournament\RoundAction.cs" />
+    <Compile Include="Models\Tournament\TournamentInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

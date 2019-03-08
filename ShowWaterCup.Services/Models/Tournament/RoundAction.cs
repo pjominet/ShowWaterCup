@@ -1,6 +1,6 @@
 using ShowWaterCup.Services.Models.Enums;
 
-namespace ShowWaterCup.Services.Models
+namespace ShowWaterCup.Services.Models.Tournament
 {
     public class RoundAction
     {
