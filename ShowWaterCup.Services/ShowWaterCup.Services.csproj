@@ -47,11 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IPlayerAIService.cs" />
+    <Compile Include="Entities\ActionType.cs" />
+    <Compile Include="Entities\Character.cs" />
+    <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\PlayerAI.cs" />
+    <Compile Include="Entities\PlayerAIStep.cs" />
     <Compile Include="Entities\ShowWaterCupEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ShowWaterCupEntities.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\ShowWaterCupEntities.cs" />
     <Compile Include="Entities\ShowWaterCupEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -67,8 +74,13 @@
     <Compile Include="Models\Player\PlayerPosition.cs" />
     <Compile Include="Models\Tournament\Round.cs" />
     <Compile Include="Models\Tournament\RoundAction.cs" />
+    <Compile Include="Models\Tournament\Test.cs" />
     <Compile Include="Models\Tournament\TournamentInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\PlayerAIRepository.cs" />
+    <Compile Include="Repositories\PlayerAIStepRepository.cs" />
+    <Compile Include="Services\PlayerAIService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Entities\ShowWaterCupEntities.edmx">
@@ -88,6 +100,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShowWaterCupEntities.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Entities\ShowWaterCupEntities.tt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

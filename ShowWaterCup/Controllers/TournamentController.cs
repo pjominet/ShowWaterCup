@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using ShowWaterCup.Services.Models;
 using ShowWaterCup.Services.Models.Enums;
+using ShowWaterCup.Services.Models.Tournament;
 
 namespace ShowWaterCup.Controllers
 {

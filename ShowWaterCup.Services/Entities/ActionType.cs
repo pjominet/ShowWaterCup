@@ -17,13 +17,13 @@ namespace ShowWaterCup.Services.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ActionType()
         {
-            this.PlayerIASteps = new HashSet<PlayerIAStep>();
+            this.PlayerAISteps = new HashSet<PlayerAIStep>();
         }
     
         public int ActionTypeId { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlayerIAStep> PlayerIASteps { get; set; }
+        public virtual ICollection<PlayerAIStep> PlayerAISteps { get; set; }
     }
 }

@@ -3,5 +3,13 @@
 ShowWaterCup.sln.DotSettings.user
 ShowWaterCup/bin
 ShowWaterCup/obj
+ShowWaterCup/ShowWaterCup.csproj.user
 ShowWaterCup.Services/bin
 ShowWaterCup.Services/obj
+ShowWaterCup.Services/
+ShowWaterCupDB/obj
+ShowWaterCupDB/bin
+ShowWaterCupDB/ShowWaterCupDB.sqlproj.user
+ShowWaterCupDB/Import Schema Logs
+ShowWaterCupDB/ShowWaterCupDB.dbmdl
+ShowWaterCupDB/ShowWaterCupDB.jfm

@@ -28,7 +28,7 @@ namespace ShowWaterCup.Services.Entities
         public virtual DbSet<ActionType> ActionTypes { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<Player> Players { get; set; }
-        public virtual DbSet<PlayerIA> PlayerIAs { get; set; }
-        public virtual DbSet<PlayerIAStep> PlayerIASteps { get; set; }
+        public virtual DbSet<PlayerAI> PlayerAIs { get; set; }
+        public virtual DbSet<PlayerAIStep> PlayerAISteps { get; set; }
     }
 }
