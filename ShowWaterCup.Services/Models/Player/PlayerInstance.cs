@@ -14,7 +14,7 @@ namespace ShowWaterCup.Services.Models.Player
         private PlayerPosition _position { get; set; }
         private int _actionPoints { get; set; }
         
-        private PlayerAi _playerAi { get; set; }
+        private PlayerAI _playerAi { get; set; }
 
         public PlayerInstance(string name, Character character, int hitpoints, PlayerPosition position)
         {
@@ -23,7 +23,7 @@ namespace ShowWaterCup.Services.Models.Player
             Hitpoints = hitpoints;
             _position = position;
             _actionPoints = 2;
-            _playerAi = new PlayerAi(this);
+            _playerAi = new PlayerAI(this);
         }
 
         public List<RoundAction> Play()

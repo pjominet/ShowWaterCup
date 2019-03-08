@@ -1,6 +1,6 @@
 namespace ShowWaterCup.Services.Models.Player
 {
-    public class PlayerAiStep
+    public class PlayerAIStep
     {
         
     }

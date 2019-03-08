@@ -2,11 +2,11 @@ using ShowWaterCup.Services.Models.Tournament;
 
 namespace ShowWaterCup.Services.Models.Player
 {
-    public class PlayerAi
+    public class PlayerAI
     {
         private PlayerInstance _player;
 
-        public PlayerAi(PlayerInstance player)
+        public PlayerAI(PlayerInstance player)
         {
             _player = player;
         }
