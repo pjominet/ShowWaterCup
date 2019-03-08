@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowWaterCup", "ShowWaterCup\ShowWaterCup.csproj", "{C83F06A1-15D2-4742-BCDA-90254D663396}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowWaterCup.Services", "ShowWaterCup.Services\ShowWaterCup.Services.csproj", "{5A1FFC57-E04A-437F-8B02-739A5151BF2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C83F06A1-15D2-4742-BCDA-90254D663396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83F06A1-15D2-4742-BCDA-90254D663396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83F06A1-15D2-4742-BCDA-90254D663396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A1FFC57-E04A-437F-8B02-739A5151BF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A1FFC57-E04A-437F-8B02-739A5151BF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A1FFC57-E04A-437F-8B02-739A5151BF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A1FFC57-E04A-437F-8B02-739A5151BF2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
