@@ -1,10 +1,10 @@
 (ns app.main
-  (:require [app.lib :refer [startGame]]))
+  (:require [graphics.grid :refer [startGame]]))
 
 (defn reload!
   []
   (println "Code updated!")
-  (startGame "drawing1"))
+  (startGame "drawing1" 10 10))
 
 (defn main
   []

@@ -1,19 +1,9 @@
-(ns app.lib)
+(ns graphics.grid
+  (:require [graphics.canvas :refer [get-canvas get-ctx]]
+           [game.board :as b]))
 
 (def fst #(first %))
 (def snd #(get % 1))
-
-(defn get-canvas
-  "input: canvas html id (string)
-   returns: canvas DOM element"
-  [canvasId]
-  (.getElementById js/document canvasId))
-
-(defn get-ctx
-  "input: canvas DOM element
-   returns: canvas 2D context"
-  [canvas]
-  (.getContext canvas "2d"))
 
 (defn draw-line
   "input: ctx, start and end point [x y]
@@ -26,28 +16,6 @@
 (defn bold-line-width [c] (set! (.-lineWidth c) 10))
 (defn medium-line-width [c] (set! (.-lineWidth c) 5))
 (defn black [c] (set! (.-fillStyle c) "rgb(255,0,0)"))
-
-(defn generate-columns
-  "input: ctx, number of columns and width of a column
-   returns: list of columns -> [[pointA pointB] ... ]"
-  [c nCols colW]
-  (reduce
-    (fn [acc i]
-      (let [colXPos (* colW i)]
-        (conj acc [[colXPos 0] [colXPos (.-h c)]])))
-    [] ; empty list of col lines
-    (range nCols 0 -1)))
-
-(defn generate-rows
-  "input: ctx, number of rows and height of a row
-   returns: list of rows -> [[pointA pointB] ... ]"
-  [c nRows rowH]
-  (reduce
-    (fn [acc i]
-      (let [rowYPos (* rowH i)]
-        (conj acc [[0 rowYPos] [(.-w c) rowYPos]])))
-    [] ; empty list of col lines
-    (range nRows 0 -1)))
 
 (defn draw-lines
   "input: ctx, start iteration and lines vector
@@ -68,8 +36,8 @@
   [c nRows nCols]
   (let [colW (/ (.-w c) nCols)
         rowH (/ (.-h c) nRows)
-        colLines (generate-columns c nCols colW)
-        rowLines (generate-rows c nRows rowH)]
+        colLines (b/generate-columns c nCols colW)
+        rowLines (b/generate-rows c nRows rowH)]
 
     ; draw axis lines
     (bold-line-width c)
@@ -81,18 +49,6 @@
     (medium-line-width c)
     (draw-lines c (dec nCols) colLines)
     (draw-lines c (dec nRows) rowLines)))
-
-(defn draw-house
-  [c]
-  (set! (.-fillStyle c) "rgb(255,0,0)")
-  (set! (.-lineWidth c) 10)
-  (.strokeRect c 75 140 150 110)
-  (.fillRect c 130 190 40 60)
-  (.moveTo c 50 140)
-  (.lineTo c 150 60)
-  (.lineTo c 250 140)
-  (.closePath c)
-  (.stroke c))
 
 (defn startGame
   [canvasId nCols nRows]

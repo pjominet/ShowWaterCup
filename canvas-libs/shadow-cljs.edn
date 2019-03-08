@@ -8,9 +8,13 @@
  :builds {:app {:output-dir "target/"
                 :asset-path "."
                 :target :browser
-                :modules {:main {:init-fn app.main/main
-                                 :depends-on #{:lib}}
-                          :lib {:entries [app.lib]}}
+                :modules {:gm_board {:entries [game.board]}
+                          :gx_canvas {:entries [graphics.canvas]
+                                      :depends-on #{:gm_board}}
+                          :gx_grid {:entries [graphics.grid]
+                                    :depends-on #{:gx_canvas :gm_board}}
+                          :main {:init-fn app.main/main
+                                 :depends-on #{:gm_board :gx_grid :gx_canvas}}}
                 :devtools {:after-load app.main/reload!
                            :http-root "target"
                            :http-port 8080}}}}
