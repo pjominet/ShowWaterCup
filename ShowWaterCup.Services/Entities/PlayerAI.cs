@@ -12,23 +12,20 @@ namespace ShowWaterCup.Services.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class PlayerIAStep
+    public partial class PlayerAI
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PlayerIAStep()
+        public PlayerAI()
         {
-            this.PlayerIAStep1 = new HashSet<PlayerIAStep>();
+            this.PlayerAISteps = new HashSet<PlayerAIStep>();
         }
     
         public int AiId { get; set; }
-        public Nullable<int> ParentStepId { get; set; }
-        public int ActionTypeId { get; set; }
-        public int PlayerAIStepId { get; set; }
+        public int PlayerId { get; set; }
+        public Nullable<int> ActionNumber { get; set; }
     
-        public virtual ActionType ActionType { get; set; }
-        public virtual PlayerIA PlayerIA { get; set; }
+        public virtual Player Player { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlayerIAStep> PlayerIAStep1 { get; set; }
-        public virtual PlayerIAStep PlayerIAStep2 { get; set; }
+        public virtual ICollection<PlayerAIStep> PlayerAISteps { get; set; }
     }
 }

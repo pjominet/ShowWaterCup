@@ -27,7 +27,7 @@
           <Property Name="Name" Type="varchar" MaxLength="100" />
           <Property Name="CharacterId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="PlayerIA">
+        <EntityType Name="PlayerAI">
           <Key>
             <PropertyRef Name="AiId" />
           </Key>
@@ -35,7 +35,7 @@
           <Property Name="PlayerId" Type="int" Nullable="false" />
           <Property Name="ActionNumber" Type="int" />
         </EntityType>
-        <EntityType Name="PlayerIAStep">
+        <EntityType Name="PlayerAIStep">
           <Key>
             <PropertyRef Name="PlayerAIStepId" />
           </Key>
@@ -58,48 +58,48 @@
         </Association>
         <Association Name="FK__PlayerIA__Action__4316F928">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
-          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="*" />
+          <End Role="PlayerAI" Type="Self.PlayerAI" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Player">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="PlayerIA">
+            <Dependent Role="PlayerAI">
               <PropertyRef Name="PlayerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__PlayerIAS__Actio__4F7CD00D">
           <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
-          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <End Role="PlayerAIStep" Type="Self.PlayerAIStep" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ActionType">
               <PropertyRef Name="ActionTypeId" />
             </Principal>
-            <Dependent Role="PlayerIAStep">
+            <Dependent Role="PlayerAIStep">
               <PropertyRef Name="ActionTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__PlayerIAS__Paren__5535A963">
-          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="0..1" />
-          <End Role="PlayerIAStep1" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <End Role="PlayerAIStep" Type="Self.PlayerAIStep" Multiplicity="0..1" />
+          <End Role="PlayerAIStep1" Type="Self.PlayerAIStep" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PlayerIAStep">
+            <Principal Role="PlayerAIStep">
               <PropertyRef Name="PlayerAIStepId" />
             </Principal>
-            <Dependent Role="PlayerIAStep1">
+            <Dependent Role="PlayerAIStep1">
               <PropertyRef Name="ParentStepId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__PlayerIASt__AiId__5441852A">
-          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="1" />
-          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <End Role="PlayerAI" Type="Self.PlayerAI" Multiplicity="1" />
+          <End Role="PlayerAIStep" Type="Self.PlayerAIStep" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PlayerIA">
+            <Principal Role="PlayerAI">
               <PropertyRef Name="AiId" />
             </Principal>
-            <Dependent Role="PlayerIAStep">
+            <Dependent Role="PlayerAIStep">
               <PropertyRef Name="AiId" />
             </Dependent>
           </ReferentialConstraint>
@@ -108,27 +108,27 @@
           <EntitySet Name="ActionType" EntityType="Self.ActionType" Schema="nomenclature" store:Type="Tables" />
           <EntitySet Name="Character" EntityType="Self.Character" Schema="nomenclature" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="swc" store:Type="Tables" />
-          <EntitySet Name="PlayerIA" EntityType="Self.PlayerIA" Schema="swc" store:Type="Tables" />
-          <EntitySet Name="PlayerIAStep" EntityType="Self.PlayerIAStep" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="PlayerAI" EntityType="Self.PlayerAI" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="PlayerAIStep" EntityType="Self.PlayerAIStep" Schema="swc" store:Type="Tables" />
           <AssociationSet Name="FK__Player__Characte__3D5E1FD2" Association="Self.FK__Player__Characte__3D5E1FD2">
             <End Role="Character" EntitySet="Character" />
             <End Role="Player" EntitySet="Player" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIA__Action__4316F928" Association="Self.FK__PlayerIA__Action__4316F928">
             <End Role="Player" EntitySet="Player" />
-            <End Role="PlayerIA" EntitySet="PlayerIA" />
+            <End Role="PlayerAI" EntitySet="PlayerAI" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIAS__Actio__4F7CD00D" Association="Self.FK__PlayerIAS__Actio__4F7CD00D">
             <End Role="ActionType" EntitySet="ActionType" />
-            <End Role="PlayerIAStep" EntitySet="PlayerIAStep" />
+            <End Role="PlayerAIStep" EntitySet="PlayerAIStep" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIAS__Paren__5535A963" Association="Self.FK__PlayerIAS__Paren__5535A963">
-            <End Role="PlayerIAStep" EntitySet="PlayerIAStep" />
-            <End Role="PlayerIAStep1" EntitySet="PlayerIAStep" />
+            <End Role="PlayerAIStep" EntitySet="PlayerAIStep" />
+            <End Role="PlayerAIStep1" EntitySet="PlayerAIStep" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIASt__AiId__5441852A" Association="Self.FK__PlayerIASt__AiId__5441852A">
-            <End Role="PlayerIA" EntitySet="PlayerIA" />
-            <End Role="PlayerIAStep" EntitySet="PlayerIAStep" />
+            <End Role="PlayerAI" EntitySet="PlayerAI" />
+            <End Role="PlayerAIStep" EntitySet="PlayerAIStep" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -142,7 +142,7 @@
           </Key>
           <Property Name="ActionTypeId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PlayerIASteps" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="ActionType" ToRole="PlayerIAStep" />
+          <NavigationProperty Name="PlayerAISteps" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="ActionType" ToRole="PlayerAIStep" />
         </EntityType>
         <EntityType Name="Character">
           <Key>
@@ -160,19 +160,19 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CharacterId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Character" Relationship="Self.FK__Player__Characte__3D5E1FD2" FromRole="Player" ToRole="Character" />
-          <NavigationProperty Name="PlayerIAs" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="Player" ToRole="PlayerIA" />
+          <NavigationProperty Name="PlayerAIs" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="Player" ToRole="PlayerAI" />
         </EntityType>
-        <EntityType Name="PlayerIA">
+        <EntityType Name="PlayerAI">
           <Key>
             <PropertyRef Name="AiId" />
           </Key>
           <Property Name="AiId" Type="Int32" Nullable="false" />
           <Property Name="PlayerId" Type="Int32" Nullable="false" />
           <Property Name="ActionNumber" Type="Int32" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="PlayerIA" ToRole="Player" />
-          <NavigationProperty Name="PlayerIASteps" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerIA" ToRole="PlayerIAStep" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="PlayerAI" ToRole="Player" />
+          <NavigationProperty Name="PlayerAISteps" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerAI" ToRole="PlayerAIStep" />
         </EntityType>
-        <EntityType Name="PlayerIAStep">
+        <EntityType Name="PlayerAIStep">
           <Key>
             <PropertyRef Name="PlayerAIStepId" />
           </Key>
@@ -180,19 +180,19 @@
           <Property Name="ParentStepId" Type="Int32" />
           <Property Name="ActionTypeId" Type="Int32" Nullable="false" />
           <Property Name="PlayerAIStepId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ActionType" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="PlayerIAStep" ToRole="ActionType" />
-          <NavigationProperty Name="PlayerIA" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerIAStep" ToRole="PlayerIA" />
-          <NavigationProperty Name="PlayerIAStep1" Relationship="Self.FK__PlayerIAS__Paren__5535A963" FromRole="PlayerIAStep" ToRole="PlayerIAStep1" />
-          <NavigationProperty Name="PlayerIAStep2" Relationship="Self.FK__PlayerIAS__Paren__5535A963" FromRole="PlayerIAStep1" ToRole="PlayerIAStep" />
+          <NavigationProperty Name="ActionType" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="PlayerAIStep" ToRole="ActionType" />
+          <NavigationProperty Name="PlayerAI" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerAIStep" ToRole="PlayerAI" />
+          <NavigationProperty Name="PlayerAIStep1" Relationship="Self.FK__PlayerIAS__Paren__5535A963" FromRole="PlayerAIStep" ToRole="PlayerAIStep1" />
+          <NavigationProperty Name="PlayerAIStep2" Relationship="Self.FK__PlayerIAS__Paren__5535A963" FromRole="PlayerAIStep1" ToRole="PlayerAIStep" />
         </EntityType>
         <Association Name="FK__PlayerIAS__Actio__4F7CD00D">
           <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
-          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <End Role="PlayerAIStep" Type="Self.PlayerAIStep" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ActionType">
               <PropertyRef Name="ActionTypeId" />
             </Principal>
-            <Dependent Role="PlayerIAStep">
+            <Dependent Role="PlayerAIStep">
               <PropertyRef Name="ActionTypeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -211,36 +211,36 @@
         </Association>
         <Association Name="FK__PlayerIA__Action__4316F928">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
-          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="*" />
+          <End Role="PlayerAI" Type="Self.PlayerAI" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Player">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="PlayerIA">
+            <Dependent Role="PlayerAI">
               <PropertyRef Name="PlayerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__PlayerIASt__AiId__5441852A">
-          <End Role="PlayerIA" Type="Self.PlayerIA" Multiplicity="1" />
-          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <End Role="PlayerAI" Type="Self.PlayerAI" Multiplicity="1" />
+          <End Role="PlayerAIStep" Type="Self.PlayerAIStep" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PlayerIA">
+            <Principal Role="PlayerAI">
               <PropertyRef Name="AiId" />
             </Principal>
-            <Dependent Role="PlayerIAStep">
+            <Dependent Role="PlayerAIStep">
               <PropertyRef Name="AiId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__PlayerIAS__Paren__5535A963">
-          <End Role="PlayerIAStep" Type="Self.PlayerIAStep" Multiplicity="0..1" />
-          <End Role="PlayerIAStep1" Type="Self.PlayerIAStep" Multiplicity="*" />
+          <End Role="PlayerAIStep" Type="Self.PlayerAIStep" Multiplicity="0..1" />
+          <End Role="PlayerAIStep1" Type="Self.PlayerAIStep" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PlayerIAStep">
+            <Principal Role="PlayerAIStep">
               <PropertyRef Name="PlayerAIStepId" />
             </Principal>
-            <Dependent Role="PlayerIAStep1">
+            <Dependent Role="PlayerAIStep1">
               <PropertyRef Name="ParentStepId" />
             </Dependent>
           </ReferentialConstraint>
@@ -249,11 +249,11 @@
           <EntitySet Name="ActionTypes" EntityType="Self.ActionType" />
           <EntitySet Name="Characters" EntityType="Self.Character" />
           <EntitySet Name="Players" EntityType="Self.Player" />
-          <EntitySet Name="PlayerIAs" EntityType="Self.PlayerIA" />
-          <EntitySet Name="PlayerIASteps" EntityType="Self.PlayerIAStep" />
+          <EntitySet Name="PlayerAIs" EntityType="Self.PlayerAI" />
+          <EntitySet Name="PlayerAISteps" EntityType="Self.PlayerAIStep" />
           <AssociationSet Name="FK__PlayerIAS__Actio__4F7CD00D" Association="Self.FK__PlayerIAS__Actio__4F7CD00D">
             <End Role="ActionType" EntitySet="ActionTypes" />
-            <End Role="PlayerIAStep" EntitySet="PlayerIASteps" />
+            <End Role="PlayerAIStep" EntitySet="PlayerAISteps" />
           </AssociationSet>
           <AssociationSet Name="FK__Player__Characte__3D5E1FD2" Association="Self.FK__Player__Characte__3D5E1FD2">
             <End Role="Character" EntitySet="Characters" />
@@ -261,15 +261,15 @@
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIA__Action__4316F928" Association="Self.FK__PlayerIA__Action__4316F928">
             <End Role="Player" EntitySet="Players" />
-            <End Role="PlayerIA" EntitySet="PlayerIAs" />
+            <End Role="PlayerAI" EntitySet="PlayerAIs" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIASt__AiId__5441852A" Association="Self.FK__PlayerIASt__AiId__5441852A">
-            <End Role="PlayerIA" EntitySet="PlayerIAs" />
-            <End Role="PlayerIAStep" EntitySet="PlayerIASteps" />
+            <End Role="PlayerAI" EntitySet="PlayerAIs" />
+            <End Role="PlayerAIStep" EntitySet="PlayerAISteps" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIAS__Paren__5535A963" Association="Self.FK__PlayerIAS__Paren__5535A963">
-            <End Role="PlayerIAStep" EntitySet="PlayerIASteps" />
-            <End Role="PlayerIAStep1" EntitySet="PlayerIASteps" />
+            <End Role="PlayerAIStep" EntitySet="PlayerAISteps" />
+            <End Role="PlayerAIStep1" EntitySet="PlayerAISteps" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -303,18 +303,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PlayerIAs">
-            <EntityTypeMapping TypeName="ShowWaterCupModel.PlayerIA">
-              <MappingFragment StoreEntitySet="PlayerIA">
+          <EntitySetMapping Name="PlayerAIs">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.PlayerAI">
+              <MappingFragment StoreEntitySet="PlayerAI">
                 <ScalarProperty Name="AiId" ColumnName="AiId" />
                 <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="ActionNumber" ColumnName="ActionNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PlayerIASteps">
-            <EntityTypeMapping TypeName="ShowWaterCupModel.PlayerIAStep">
-              <MappingFragment StoreEntitySet="PlayerIAStep">
+          <EntitySetMapping Name="PlayerAISteps">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.PlayerAIStep">
+              <MappingFragment StoreEntitySet="PlayerAIStep">
                 <ScalarProperty Name="AiId" ColumnName="AiId" />
                 <ScalarProperty Name="ParentStepId" ColumnName="ParentStepId" />
                 <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
