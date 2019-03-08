@@ -5,3 +5,7 @@ ShowWaterCup/bin
 ShowWaterCup/obj
 ShowWaterCup.Services/bin
 ShowWaterCup.Services/obj
+ShowWaterCupDB/obj
+ShowWaterCupDB/bin
+ShowWaterCupDB/ShowWaterCupDB.sqlproj.user
+ShowWaterCupDB/Import Schema Logs

@@ -58,4 +58,14 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="nomenclature\Tables\ActionType.sql" />
+    <Content Include="nomenclature\Tables\Character.sql" />
+    <Content Include="Security\nomenclature.sql" />
+    <Content Include="Security\swc.sql" />
+    <Content Include="Security\wwc.sql" />
+    <Content Include="swc\Tables\Player.sql" />
+    <Content Include="swc\Tables\PlayerIA.sql" />
+    <Content Include="swc\Tables\PlayerIAStep.sql" />
+  </ItemGroup>
 </Project>
