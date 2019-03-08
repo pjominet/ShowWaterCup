@@ -5,3 +5,7 @@ ShowWaterCup/bin
 ShowWaterCup/obj
 ShowWaterCup.Services/bin
 ShowWaterCup.Services/obj
+canvas-libs/target
+canvas-libs/.idea
+canvas-libs/.nrepl-port
+canvas-libs/.shadow-cljs
