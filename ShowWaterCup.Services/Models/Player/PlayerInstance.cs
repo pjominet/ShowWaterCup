@@ -11,8 +11,8 @@ namespace ShowWaterCup.Services.Models.Player
         public Character Character { get; set; }
         public int Hitpoints { get; set; }
         
-        private PlayerPosition _position { get; set; }
-        private int _actionPoints { get; set; }
+        public PlayerPosition Position { get; set; }
+        public int ActionPoints { get; set; }
         
         private PlayerAI _playerAi { get; set; }
 
@@ -21,15 +21,15 @@ namespace ShowWaterCup.Services.Models.Player
             Name = name;
             Character = character;
             Hitpoints = hitpoints;
-            _position = position;
-            _actionPoints = 2;
+            Position = position;
+            ActionPoints = 2;
             _playerAi = new PlayerAI(this);
         }
 
         public List<RoundAction> Play()
         {
             var rounds = new List<RoundAction>();
-            for (var i = 0; i < _actionPoints; i++)
+            for (var i = 0; i < ActionPoints; i++)
             {
                 rounds.Add(_playerAi.Play());
             }

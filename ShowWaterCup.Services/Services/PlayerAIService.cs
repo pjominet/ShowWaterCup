@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShowWaterCup.Services.Contracts;
+﻿using ShowWaterCup.Services.Contracts;
 using ShowWaterCup.Services.Entities;
 using ShowWaterCup.Services.Repositories;
 

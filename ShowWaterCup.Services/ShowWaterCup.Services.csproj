@@ -67,14 +67,13 @@
     <Compile Include="Models\Engine\TournamentEngine.cs" />
     <Compile Include="Models\Enums\ActionType.cs" />
     <Compile Include="Models\Enums\Character.cs" />
-    <Compile Include="Models\Enums\Directions.cs" />
+    <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Player\PlayerAI.cs" />
     <Compile Include="Models\Player\PlayerAIStep.cs" />
     <Compile Include="Models\Player\PlayerInstance.cs" />
     <Compile Include="Models\Player\PlayerPosition.cs" />
     <Compile Include="Models\Tournament\Round.cs" />
     <Compile Include="Models\Tournament\RoundAction.cs" />
-    <Compile Include="Models\Tournament\Test.cs" />
     <Compile Include="Models\Tournament\TournamentInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />

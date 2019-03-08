@@ -7,17 +7,23 @@ namespace ShowWaterCup.Services.Models.Player
         public int X { get; set; }
         public int Y { get; set; }
 
-        public bool CanMove(Directions directions)
+        public PlayerPosition(int x, int y)
         {
-            switch (directions)
+            X = x;
+            Y = y;
+        }
+
+        public bool IsAvailable(Direction direction)
+        {
+            switch (direction)
             {
-                case Directions.Up:
+                case Direction.Up:
                     return Y > 0;
-                case Directions.Down:
+                case Direction.Down:
                     return Y < 9;
-                case Directions.Left:
+                case Direction.Left:
                     return X > 0;
-                case Directions.Right:
+                case Direction.Right:
                     return X < 9;
                 default:
                     return false;
