@@ -1,3 +1,7 @@
 .idea
 .vs
 ShowWaterCup.sln.DotSettings.user
+ShowWaterCup/bin
+ShowWaterCup/obj
+ShowWaterCup.Services/bin
+ShowWaterCup.Services/obj
