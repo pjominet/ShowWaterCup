@@ -33,7 +33,6 @@ namespace ShowWaterCup.Services.Models.Player
             
             else
                 return false;
-
         }
 
         private int GetNumericValue(Value value)

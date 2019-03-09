@@ -35,26 +35,28 @@ namespace ShowWaterCup.Services.Services
 
         private ConditionalBlock ParseConditionalBlock(XmlNode node)
         {
-            ConditionalBlock conditionalBlock = new ConditionalBlock();
-            conditionalBlock.Value = new Value()
+            ConditionalBlock conditionalBlock = new ConditionalBlock
             {
-                Name = "IF",
-                Block = new LogicalBlock()
+                Value = new Value()
                 {
-                    Type = "logic_compare",
-                    Field = new Field()
+                    Name = "IF",
+                    Block = new LogicalBlock()
                     {
-                        Content = "",
-                        FieldName = "",
-                        FieldType = ""
-                    },
-                    LeftValue = new Value()
-                    {
+                        Type = "logic_compare",
+                        Field = new Field()
+                        {
+                            Content = "",
+                            FieldName = "",
+                            FieldType = ""
+                        },
+                        LeftValue = new Value()
+                        {
 
-                    },
-                    RightValue = new Value()
-                    {
+                        },
+                        RightValue = new Value()
+                        {
 
+                        }
                     }
                 }
             };
