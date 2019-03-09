@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 namespace ShowWaterCup.Services.Models.Blockly
 {
-    public class Field
+    public class AI
     {
-        public string FieldType { get; set; }
-        public string FieldName { get; set; }
-        public string Content { get; set; }
+        public AbstractBlock FirstBlock { get; set; }        
     }
 }
