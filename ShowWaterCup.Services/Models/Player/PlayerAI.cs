@@ -25,7 +25,7 @@ namespace ShowWaterCup.Services.Models.Player
             if (IsDead()) 
                 return null;
             
-            var action = getAction();
+            var action = GetAction();
             switch (action.ActionType)
             {
                 case ActionType.Move:
@@ -252,7 +252,7 @@ namespace ShowWaterCup.Services.Models.Player
         }
         
         // Get action from XML Action Parser
-        private RoundAction getAction() 
+        private RoundAction GetAction() 
         {
             // mock action
             return new RoundAction
