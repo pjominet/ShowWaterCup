@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ShowWaterCupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ShowWaterCupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActionType">
           <Key>
             <PropertyRef Name="ActionTypeId" />
@@ -19,6 +19,16 @@
           <Property Name="CharacterId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ActionId" />
+          </Key>
+          <Property Name="ActionId" Type="int" Nullable="false" />
+          <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="ActionTypeId" Type="int" Nullable="false" />
+          <Property Name="Target" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoundId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Player">
           <Key>
             <PropertyRef Name="Id" />
@@ -26,6 +36,10 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" />
           <Property Name="CharacterId" Type="int" Nullable="false" />
+          <Property Name="HitPoints" Type="int" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="ActionPoints" Type="int" />
+          <Property Name="AiId" Type="int" />
         </EntityType>
         <EntityType Name="PlayerAI">
           <Key>
@@ -33,7 +47,6 @@
           </Key>
           <Property Name="AiId" Type="int" Nullable="false" />
           <Property Name="PlayerId" Type="int" Nullable="false" />
-          <Property Name="ActionNumber" Type="int" />
         </EntityType>
         <EntityType Name="PlayerAIStep">
           <Key>
@@ -44,6 +57,76 @@
           <Property Name="ActionTypeId" Type="int" Nullable="false" />
           <Property Name="PlayerAIStepId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="X" Type="int" Nullable="false" />
+          <Property Name="Y" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Round">
+          <Key>
+            <PropertyRef Name="RoundId" />
+          </Key>
+          <Property Name="RoundId" Type="int" Nullable="false" />
+          <Property Name="TournamentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="TournamentId" />
+          </Key>
+          <Property Name="TournamentId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Action__ActionTy__6383C8BA">
+          <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
+          <End Role="Action" Type="Self.Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionType">
+              <PropertyRef Name="ActionTypeId" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="ActionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Action__PlayerId__628FA481">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="Action" Type="Self.Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Action__RoundId__6477ECF3">
+          <End Role="Round" Type="Self.Round" Multiplicity="1" />
+          <End Role="Action" Type="Self.Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Round">
+              <PropertyRef Name="RoundId" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="RoundId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Player__AiId__59FA5E80">
+          <End Role="PlayerAI" Type="Self.PlayerAI" Multiplicity="0..1" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerAI">
+              <PropertyRef Name="AiId" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="AiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Player__Characte__3D5E1FD2">
           <End Role="Character" Type="Self.Character" Multiplicity="1" />
           <End Role="Player" Type="Self.Player" Multiplicity="*" />
@@ -53,6 +136,18 @@
             </Principal>
             <Dependent Role="Player">
               <PropertyRef Name="CharacterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Player__Position__59063A47">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="PositionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -104,14 +199,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Round__Tournamen__5FB337D6">
+          <End Role="Tournament" Type="Self.Tournament" Multiplicity="1" />
+          <End Role="Round" Type="Self.Round" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="TournamentId" />
+            </Principal>
+            <Dependent Role="Round">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ShowWaterCupModelStoreContainer">
           <EntitySet Name="ActionType" EntityType="Self.ActionType" Schema="nomenclature" store:Type="Tables" />
           <EntitySet Name="Character" EntityType="Self.Character" Schema="nomenclature" store:Type="Tables" />
+          <EntitySet Name="Action" EntityType="Self.Action" Schema="swc" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="swc" store:Type="Tables" />
           <EntitySet Name="PlayerAI" EntityType="Self.PlayerAI" Schema="swc" store:Type="Tables" />
           <EntitySet Name="PlayerAIStep" EntityType="Self.PlayerAIStep" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="Round" EntityType="Self.Round" Schema="swc" store:Type="Tables" />
+          <EntitySet Name="Tournament" EntityType="Self.Tournament" Schema="swc" store:Type="Tables" />
+          <AssociationSet Name="FK__Action__ActionTy__6383C8BA" Association="Self.FK__Action__ActionTy__6383C8BA">
+            <End Role="ActionType" EntitySet="ActionType" />
+            <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Action__PlayerId__628FA481" Association="Self.FK__Action__PlayerId__628FA481">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Action__RoundId__6477ECF3" Association="Self.FK__Action__RoundId__6477ECF3">
+            <End Role="Round" EntitySet="Round" />
+            <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Player__AiId__59FA5E80" Association="Self.FK__Player__AiId__59FA5E80">
+            <End Role="PlayerAI" EntitySet="PlayerAI" />
+            <End Role="Player" EntitySet="Player" />
+          </AssociationSet>
           <AssociationSet Name="FK__Player__Characte__3D5E1FD2" Association="Self.FK__Player__Characte__3D5E1FD2">
             <End Role="Character" EntitySet="Character" />
+            <End Role="Player" EntitySet="Player" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Player__Position__59063A47" Association="Self.FK__Player__Position__59063A47">
+            <End Role="Position" EntitySet="Position" />
             <End Role="Player" EntitySet="Player" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerIA__Action__4316F928" Association="Self.FK__PlayerIA__Action__4316F928">
@@ -130,9 +261,12 @@
             <End Role="PlayerAI" EntitySet="PlayerAI" />
             <End Role="PlayerAIStep" EntitySet="PlayerAIStep" />
           </AssociationSet>
+          <AssociationSet Name="FK__Round__Tournamen__5FB337D6" Association="Self.FK__Round__Tournamen__5FB337D6">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="Round" EntitySet="Round" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ShowWaterCupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -143,6 +277,7 @@
           <Property Name="ActionTypeId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PlayerAISteps" Relationship="Self.FK__PlayerIAS__Actio__4F7CD00D" FromRole="ActionType" ToRole="PlayerAIStep" />
+          <NavigationProperty Name="Actions" Relationship="ShowWaterCupModel.FK__Action__ActionTy__6383C8BA" FromRole="ActionType" ToRole="Action" />
         </EntityType>
         <EntityType Name="Character">
           <Key>
@@ -161,6 +296,13 @@
           <Property Name="CharacterId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Character" Relationship="Self.FK__Player__Characte__3D5E1FD2" FromRole="Player" ToRole="Character" />
           <NavigationProperty Name="PlayerAIs" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="Player" ToRole="PlayerAI" />
+          <Property Name="HitPoints" Type="Int32" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="ActionPoints" Type="Int32" />
+          <Property Name="AiId" Type="Int32" />
+          <NavigationProperty Name="PlayerAI" Relationship="ShowWaterCupModel.FK__Player__AiId__59FA5E80" FromRole="Player" ToRole="PlayerAI" />
+          <NavigationProperty Name="Position" Relationship="ShowWaterCupModel.FK__Player__Position__59063A47" FromRole="Player" ToRole="Position" />
+          <NavigationProperty Name="Actions" Relationship="ShowWaterCupModel.FK__Action__PlayerId__628FA481" FromRole="Player" ToRole="Action" />
         </EntityType>
         <EntityType Name="PlayerAI">
           <Key>
@@ -168,9 +310,9 @@
           </Key>
           <Property Name="AiId" Type="Int32" Nullable="false" />
           <Property Name="PlayerId" Type="Int32" Nullable="false" />
-          <Property Name="ActionNumber" Type="Int32" />
           <NavigationProperty Name="Player" Relationship="Self.FK__PlayerIA__Action__4316F928" FromRole="PlayerAI" ToRole="Player" />
           <NavigationProperty Name="PlayerAISteps" Relationship="Self.FK__PlayerIASt__AiId__5441852A" FromRole="PlayerAI" ToRole="PlayerAIStep" />
+          <NavigationProperty Name="Players" Relationship="ShowWaterCupModel.FK__Player__AiId__59FA5E80" FromRole="PlayerAI" ToRole="Player" />
         </EntityType>
         <EntityType Name="PlayerAIStep">
           <Key>
@@ -271,7 +413,146 @@
             <End Role="PlayerAIStep" EntitySet="PlayerAISteps" />
             <End Role="PlayerAIStep1" EntitySet="PlayerAISteps" />
           </AssociationSet>
+          <AssociationSet Name="FK__Player__AiId__59FA5E80" Association="ShowWaterCupModel.FK__Player__AiId__59FA5E80">
+            <End Role="PlayerAI" EntitySet="PlayerAIs" />
+            <End Role="Player" EntitySet="Players" />
+          </AssociationSet>
+          <EntitySet Name="Positions" EntityType="ShowWaterCupModel.Position" />
+          <AssociationSet Name="FK__Player__Position__59063A47" Association="ShowWaterCupModel.FK__Player__Position__59063A47">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Player" EntitySet="Players" />
+          </AssociationSet>
+          <EntitySet Name="Actions" EntityType="ShowWaterCupModel.Action" />
+          <EntitySet Name="Rounds" EntityType="ShowWaterCupModel.Round" />
+          <EntitySet Name="Tournaments" EntityType="ShowWaterCupModel.Tournament" />
+          <AssociationSet Name="FK__Action__ActionTy__6383C8BA" Association="ShowWaterCupModel.FK__Action__ActionTy__6383C8BA">
+            <End Role="ActionType" EntitySet="ActionTypes" />
+            <End Role="Action" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Action__PlayerId__628FA481" Association="ShowWaterCupModel.FK__Action__PlayerId__628FA481">
+            <End Role="Player" EntitySet="Players" />
+            <End Role="Action" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Action__RoundId__6477ECF3" Association="ShowWaterCupModel.FK__Action__RoundId__6477ECF3">
+            <End Role="Round" EntitySet="Rounds" />
+            <End Role="Action" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Round__Tournamen__5FB337D6" Association="ShowWaterCupModel.FK__Round__Tournamen__5FB337D6">
+            <End Role="Tournament" EntitySet="Tournaments" />
+            <End Role="Round" EntitySet="Rounds" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK__Player__AiId__59FA5E80">
+          <End Type="ShowWaterCupModel.PlayerAI" Role="PlayerAI" Multiplicity="0..1" />
+          <End Type="ShowWaterCupModel.Player" Role="Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerAI">
+              <PropertyRef Name="AiId" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="AiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="X" Type="Int32" Nullable="false" />
+          <Property Name="Y" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Players" Relationship="ShowWaterCupModel.FK__Player__Position__59063A47" FromRole="Position" ToRole="Player" />
+        </EntityType>
+        <Association Name="FK__Player__Position__59063A47">
+          <End Type="ShowWaterCupModel.Position" Role="Position" Multiplicity="0..1" />
+          <End Type="ShowWaterCupModel.Player" Role="Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ActionId" />
+          </Key>
+          <Property Name="ActionId" Type="Int32" Nullable="false" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="ActionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Target" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoundId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ActionType" Relationship="ShowWaterCupModel.FK__Action__ActionTy__6383C8BA" FromRole="Action" ToRole="ActionType" />
+          <NavigationProperty Name="Player" Relationship="ShowWaterCupModel.FK__Action__PlayerId__628FA481" FromRole="Action" ToRole="Player" />
+          <NavigationProperty Name="Round" Relationship="ShowWaterCupModel.FK__Action__RoundId__6477ECF3" FromRole="Action" ToRole="Round" />
+        </EntityType>
+        <EntityType Name="Round">
+          <Key>
+            <PropertyRef Name="RoundId" />
+          </Key>
+          <Property Name="RoundId" Type="Int32" Nullable="false" />
+          <Property Name="TournamentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Actions" Relationship="ShowWaterCupModel.FK__Action__RoundId__6477ECF3" FromRole="Round" ToRole="Action" />
+          <NavigationProperty Name="Tournament" Relationship="ShowWaterCupModel.FK__Round__Tournamen__5FB337D6" FromRole="Round" ToRole="Tournament" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="TournamentId" />
+          </Key>
+          <Property Name="TournamentId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Rounds" Relationship="ShowWaterCupModel.FK__Round__Tournamen__5FB337D6" FromRole="Tournament" ToRole="Round" />
+        </EntityType>
+        <Association Name="FK__Action__ActionTy__6383C8BA">
+          <End Type="ShowWaterCupModel.ActionType" Role="ActionType" Multiplicity="1" />
+          <End Type="ShowWaterCupModel.Action" Role="Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionType">
+              <PropertyRef Name="ActionTypeId" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="ActionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Action__PlayerId__628FA481">
+          <End Type="ShowWaterCupModel.Player" Role="Player" Multiplicity="1" />
+          <End Type="ShowWaterCupModel.Action" Role="Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Action__RoundId__6477ECF3">
+          <End Type="ShowWaterCupModel.Round" Role="Round" Multiplicity="1" />
+          <End Type="ShowWaterCupModel.Action" Role="Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Round">
+              <PropertyRef Name="RoundId" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="RoundId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Round__Tournamen__5FB337D6">
+          <End Type="ShowWaterCupModel.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="ShowWaterCupModel.Round" Role="Round" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="TournamentId" />
+            </Principal>
+            <Dependent Role="Round">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -297,6 +578,10 @@
           <EntitySetMapping Name="Players">
             <EntityTypeMapping TypeName="ShowWaterCupModel.Player">
               <MappingFragment StoreEntitySet="Player">
+                <ScalarProperty Name="AiId" ColumnName="AiId" />
+                <ScalarProperty Name="ActionPoints" ColumnName="ActionPoints" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="HitPoints" ColumnName="HitPoints" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CharacterId" ColumnName="CharacterId" />
@@ -308,7 +593,6 @@
               <MappingFragment StoreEntitySet="PlayerAI">
                 <ScalarProperty Name="AiId" ColumnName="AiId" />
                 <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
-                <ScalarProperty Name="ActionNumber" ColumnName="ActionNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -319,6 +603,42 @@
                 <ScalarProperty Name="ParentStepId" ColumnName="ParentStepId" />
                 <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
                 <ScalarProperty Name="PlayerAIStepId" ColumnName="PlayerAIStepId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Actions">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.Action">
+              <MappingFragment StoreEntitySet="Action">
+                <ScalarProperty Name="RoundId" ColumnName="RoundId" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rounds">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.Round">
+              <MappingFragment StoreEntitySet="Round">
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+                <ScalarProperty Name="RoundId" ColumnName="RoundId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tournaments">
+            <EntityTypeMapping TypeName="ShowWaterCupModel.Tournament">
+              <MappingFragment StoreEntitySet="Tournament">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

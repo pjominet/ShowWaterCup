@@ -12,29 +12,19 @@ namespace ShowWaterCup.Services.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Player
+    public partial class Round
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Player()
+        public Round()
         {
-            this.PlayerAIs = new HashSet<PlayerAI>();
             this.Actions = new HashSet<Action>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int CharacterId { get; set; }
-        public Nullable<int> HitPoints { get; set; }
-        public Nullable<int> PositionId { get; set; }
-        public Nullable<int> ActionPoints { get; set; }
-        public Nullable<int> AiId { get; set; }
+        public int RoundId { get; set; }
+        public int TournamentId { get; set; }
     
-        public virtual Character Character { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlayerAI> PlayerAIs { get; set; }
-        public virtual PlayerAI PlayerAI { get; set; }
-        public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Action> Actions { get; set; }
+        public virtual Tournament Tournament { get; set; }
     }
 }

@@ -15,6 +15,16 @@
         <AssociationConnector Association="ShowWaterCupModel.FK__PlayerIA__Action__4316F928" ManuallyRouted="false" />
         <AssociationConnector Association="ShowWaterCupModel.FK__PlayerIASt__AiId__5441852A" ManuallyRouted="false" />
         <AssociationConnector Association="ShowWaterCupModel.FK__PlayerIAS__Paren__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Player__AiId__59FA5E80" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Position" Width="1.5" PointX="0.75" PointY="5.875" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Player__Position__59063A47" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Action" Width="1.5" PointX="7.5" PointY="4.875" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Round" Width="1.5" PointX="5.25" PointY="8.375" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Tournament" Width="1.5" PointX="3" PointY="8.375" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Action__ActionTy__6383C8BA" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Action__PlayerId__628FA481" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Action__RoundId__6477ECF3" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Round__Tournamen__5FB337D6" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

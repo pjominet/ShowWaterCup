@@ -12,21 +12,19 @@ namespace ShowWaterCup.Services.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class ActionType
+    public partial class Position
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ActionType()
+        public Position()
         {
-            this.PlayerAISteps = new HashSet<PlayerAIStep>();
-            this.Actions = new HashSet<Action>();
+            this.Players = new HashSet<Player>();
         }
     
-        public int ActionTypeId { get; set; }
-        public string Name { get; set; }
+        public int PositionId { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlayerAIStep> PlayerAISteps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Action> Actions { get; set; }
+        public virtual ICollection<Player> Players { get; set; }
     }
 }
