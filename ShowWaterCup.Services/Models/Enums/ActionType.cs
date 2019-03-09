@@ -3,6 +3,9 @@ namespace ShowWaterCup.Services.Models.Enums
     public enum ActionType
     {
         Move,
-        Attack
+        CloseIn,
+        Flee,
+        Attack,
+        MoveCenter
     }
 }

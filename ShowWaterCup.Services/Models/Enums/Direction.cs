@@ -5,6 +5,7 @@ namespace ShowWaterCup.Services.Models.Enums
         Up,
         Down,
         Left,
-        Right
+        Right,
+        None
     }
 }
