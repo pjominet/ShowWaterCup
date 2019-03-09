@@ -64,17 +64,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ShowWaterCupEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Blockly\Block.cs" />
     <Compile Include="Models\Engine\TournamentEngine.cs" />
     <Compile Include="Models\Enums\ActionType.cs" />
     <Compile Include="Models\Enums\Character.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
+    <Compile Include="Models\Blockly\Field.cs" />
+    <Compile Include="Models\Blockly\Next.cs" />
     <Compile Include="Models\Player\PlayerAI.cs" />
     <Compile Include="Models\Player\PlayerAIStep.cs" />
     <Compile Include="Models\Player\PlayerInstance.cs" />
     <Compile Include="Models\Player\PlayerPosition.cs" />
+    <Compile Include="Models\Blockly\Statement.cs" />
     <Compile Include="Models\Tournament\Round.cs" />
     <Compile Include="Models\Tournament\RoundAction.cs" />
     <Compile Include="Models\Tournament\TournamentInstance.cs" />
+    <Compile Include="Models\Blockly\Value.cs" />
+    <Compile Include="Models\Blockly\Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\PlayerAIRepository.cs" />
