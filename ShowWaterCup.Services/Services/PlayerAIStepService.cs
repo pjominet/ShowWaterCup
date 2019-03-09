@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShowWaterCup.Services.Contracts;
-using ShowWaterCup.Services.Entities;
 using ShowWaterCup.Services.Repositories;
+using ShowWaterCup.Services.Models.Player;
+using Entities = ShowWaterCup.Services.Entities;
+using AutoMapper;
 
 namespace ShowWaterCup.Services.Services
 {
@@ -15,26 +17,28 @@ namespace ShowWaterCup.Services.Services
 
         public PlayerAIStepService()
         {
-            var context = new ShowWaterCupEntities();
+            var context = new Entities.ShowWaterCupEntities();
             _playerAIStepRepository = new PlayerAIStepRepository(context);
         }
 
         public int CreatePlayerAIStep(PlayerAIStep playerAIStep)
         {
+            var entity = Mapper.Map<Entities.PlayerAIStep>(playerAIStep);
             _playerAIStepRepository.Add(playerAIStep);
             _playerAIStepRepository.SaveChanges();
-            return playerAIStep.PlayerAIStepId;
+            return entity.PlayerAIStepId;
         }
 
         public PlayerAIStep GetPlayerAIStep(int PlayerAIStepId)
         {
-            return _playerAIStepRepository.GetFirst<PlayerAIStep>(aiStep => aiStep.PlayerAIStepId == PlayerAIStepId);
+            var playerAIStep = _playerAIStepRepository.GetFirst<Entities.PlayerAIStep>(aiStep => aiStep.PlayerAIStepId == PlayerAIStepId);
+            return Mapper.Map<PlayerAIStep>(playerAIStep);
         }
 
         public void UpdatePlayerAIStep(PlayerAIStep playerAIStep)
         {
-            var entity = _playerAIStepRepository.GetFirst<PlayerAIStep>(aiStep => aiStep.PlayerAIStepId == playerAIStep.PlayerAIStepId);
-            entity = playerAIStep;
+            var entity = _playerAIStepRepository.GetFirst<Entities.PlayerAIStep>(aiStep => aiStep.PlayerAIStepId == playerAIStep.PlayerAIStepId);
+            Mapper.Map(playerAIStep, entity);
             _playerAIStepRepository.SaveChanges();
         }
     }

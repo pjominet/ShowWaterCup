@@ -32,18 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -52,28 +59,28 @@
     <Compile Include="Contracts\IPlayerAIStepService.cs" />
     <Compile Include="Contracts\IRoundService.cs" />
     <Compile Include="Contracts\ITournamentService.cs" />
-    <Compile Include="Entities\ActionType.cs" >
+    <Compile Include="Entities\ActionType.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Character.cs" >
+    <Compile Include="Entities\Character.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Player.cs" >
+    <Compile Include="Entities\Player.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\PlayerAI.cs" >
+    <Compile Include="Entities\PlayerAI.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\PlayerAIStep.cs" >
+    <Compile Include="Entities\PlayerAIStep.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Position.cs" >
+    <Compile Include="Entities\Position.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Round.cs" >
+    <Compile Include="Entities\Round.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\RoundAction.cs" >
+    <Compile Include="Entities\RoundAction.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\ShowWaterCupEntities.Context.cs">
@@ -81,7 +88,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ShowWaterCupEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\ShowWaterCupEntities.cs" />
+    <Compile Include="Entities\ShowWaterCupEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ShowWaterCupEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,23 +101,29 @@
     <Compile Include="Entities\Tournament.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Blockly\Block.cs" />
+    <Compile Include="Infrastructure\AutoMapperConfiguration.cs" />
+    <Compile Include="Models\Blockly\AbstractBlock.cs" />
+    <Compile Include="Models\Blockly\ActionBlock.cs" />
+    <Compile Include="Models\Blockly\AI.cs" />
+    <Compile Include="Models\Blockly\BlockEvaluationResult.cs" />
+    <Compile Include="Models\Blockly\ConditionalBlock.cs" />
+    <Compile Include="Models\Blockly\FieldBlock.cs" />
+    <Compile Include="Models\Blockly\Keyword.cs" />
+    <Compile Include="Models\Blockly\LogicalBlock.cs" />
+    <Compile Include="Models\Blockly\Mutation.cs" />
     <Compile Include="Models\Engine\TournamentEngine.cs" />
     <Compile Include="Models\Enums\ActionType.cs" />
     <Compile Include="Models\Enums\Character.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
     <Compile Include="Models\Blockly\Field.cs" />
-    <Compile Include="Models\Blockly\Next.cs" />
     <Compile Include="Models\Player\PlayerAI.cs" />
     <Compile Include="Models\Player\PlayerAIStep.cs" />
     <Compile Include="Models\Player\PlayerInstance.cs" />
     <Compile Include="Models\Player\PlayerPosition.cs" />
-    <Compile Include="Models\Blockly\Statement.cs" />
     <Compile Include="Models\Tournament\Round.cs" />
     <Compile Include="Models\Tournament\RoundAction.cs" />
     <Compile Include="Models\Tournament\TournamentInstance.cs" />
     <Compile Include="Models\Blockly\Value.cs" />
-    <Compile Include="Models\Blockly\Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\PlayerAIRepository.cs" />
@@ -114,11 +131,12 @@
     <Compile Include="Repositories\RoundActionRepository.cs" />
     <Compile Include="Repositories\RoundRepository.cs" />
     <Compile Include="Repositories\TournamentRepository.cs" />
+    <Compile Include="Services\RoundActionService.cs" />
     <Compile Include="Services\PlayerAIService.cs" />
     <Compile Include="Services\PlayerAIStepService.cs" />
     <Compile Include="Services\RoundService.cs" />
     <Compile Include="Services\TournamentService.cs" />
-    <Compile Include="Services\XMLSerializer.cs" />
+    <Compile Include="Services\XMLReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShowWaterCup.Services.Contracts;
-using ShowWaterCup.Services.Entities;
+using ShowWaterCup.Services.Models.Tournament;
+using Entities = ShowWaterCup.Services.Entities;
 using ShowWaterCup.Services.Repositories;
+using AutoMapper;
 
 namespace ShowWaterCup.Services.Services
 {
@@ -19,21 +21,24 @@ namespace ShowWaterCup.Services.Services
             _tournamentRepository = new TournamentRepository(context);
         }
 
-        public int CreateTournament(Tournament tournament)
+        public int CreateTournament(TournamentInstance tournament)
         {
-            _tournamentRepository.Add(tournament);
+            var entity = Mapper.Map<Entities.Tournament>(tournament);
+            _tournamentRepository.Add(entity);
             _tournamentRepository.SaveChanges();
-            return tournament.TournamentId;
+            return entity.TournamentId;
         }
 
-        public Tournament GetTournament(int tournamentId)
+        public TournamentInstance GetTournament(int tournamentId)
         {
-            return _tournamentRepository.GetFirst<Tournament>(t => t.TournamentId == tournamentId);
+            var tournament =  _tournamentRepository.GetFirst<Entities.Tournament>(t => t.TournamentId == tournamentId);
+            return Mapper.Map<TournamentInstance>(tournament);
         }
 
-        public IEnumerable<Tournament> GetTournaments()
+        public IEnumerable<TournamentInstance> GetTournaments()
         {
-            return _tournamentRepository.GetAll<Tournament>();
+            var tournaments = _tournamentRepository.GetAll<Entities.Tournament>();
+            return Mapper.Map<IEnumerable<TournamentInstance>>(tournaments);
         }
     }
 }

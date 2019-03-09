@@ -23,7 +23,7 @@ namespace ShowWaterCup.Services.Models.Player
             Hitpoints = hitpoints;
             Position = position;
             ActionPoints = 2;
-            _playerAi = new PlayerAI(this);
+            _playerAi = new PlayerAI(this, null);
         }
 
         public List<RoundAction> Play()

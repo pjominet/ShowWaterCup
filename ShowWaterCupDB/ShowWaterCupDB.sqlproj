@@ -73,4 +73,18 @@
     <Content Include="swc\Tables\PlayerIA.sql" />
     <Content Include="swc\Tables\PlayerIAStep.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="swc\Tables\RoundAction.sql" />
+    <Build Include="swc\Tables\Round.sql" />
+    <Build Include="swc\Tables\Tournament.sql" />
+    <Build Include="swc\Tables\Position.sql" />
+    <Build Include="swc\Tables\PlayerAIStep.sql" />
+    <Build Include="swc\Tables\PlayerAI.sql" />
+    <Build Include="swc\Tables\Player_1.sql" />
+    <Build Include="nomenclature\Tables\ActionType_1.sql" />
+    <Build Include="nomenclature\Tables\Character_1.sql" />
+    <Build Include="Security\wwc_1.sql" />
+    <Build Include="Security\swc_1.sql" />
+    <Build Include="Security\nomenclature_1.sql" />
+  </ItemGroup>
 </Project>
