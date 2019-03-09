@@ -33,12 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -46,6 +50,9 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -83,7 +90,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ShowWaterCupEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\ShowWaterCupEntities.cs" />
+    <Compile Include="Entities\ShowWaterCupEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ShowWaterCupEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -92,6 +103,7 @@
     <Compile Include="Entities\Tournament.cs">
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AutoMapperConfiguration.cs" />
     <Compile Include="Models\Blockly\Block.cs" />
     <Compile Include="Models\Engine\TournamentEngine.cs" />
     <Compile Include="Models\Enums\ActionType.cs" />
@@ -118,6 +130,7 @@
     <Compile Include="Repositories\RoundActionRepository.cs" />
     <Compile Include="Repositories\RoundRepository.cs" />
     <Compile Include="Repositories\TournamentRepository.cs" />
+    <Compile Include="Services\RoundActionService.cs" />
     <Compile Include="Services\PlayerAIService.cs" />
     <Compile Include="Services\PlayerAIStepService.cs" />
     <Compile Include="Services\RoundService.cs" />

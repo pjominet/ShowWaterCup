@@ -12,6 +12,9 @@ namespace ShowWaterCup.Services.Models.Player
         private readonly PlayerInstance _player;
         private ArenaMap Map { get; set; }
 
+        public int AiId { get; set; }
+        public int PlayerId { get; set; }
+
         public PlayerAI(PlayerInstance player)
         {
             _player = player;
