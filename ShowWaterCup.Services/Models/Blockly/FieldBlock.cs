@@ -9,5 +9,11 @@ namespace ShowWaterCup.Services.Models.Blockly
     public class FieldBlock : AbstractBlock
     {
         public Field Field { get; set; }
-    }
+
+        public FieldBlock(string type, Field field)
+        {
+            Type = type;
+            Field = field;
+        }
+    }    
 }

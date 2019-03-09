@@ -1,24 +1,124 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
-</div>
+﻿<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>There and back again : an unexpected journey</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="TechnologyPartner">
+
+    <script src="blockly_compressed.js"></script>
+    <script src="blocks_compressed.js"></script>
+    <script src="en.js"></script>
+</head>
+
+<body>
+    <div id="blocklyDiv" style="height: 700px; width: 800px;"></div>
+
+    <button onclick="printXml()">xmlify</button>
+
+    <xml id="toolbox" style="display: none">
+        <category name="Other">
+            <block type="math_number"></block>
+        </category>
+
+        <category name="Logic">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+            <block type="logic_boolean"></block>
+        </category>
+
+        <category name="Movements">
+            <block type="move_forward"></block>
+            <block type="move_backward"></block>
+            <block type="move_left"></block>
+            <block type="move_right"></block>
+            <block type="move_center"></block>
+            <block type="move_closest_opponent"></block>
+        </category>
+
+        <category name="Actions">
+            <block type="approach_ennemy"></block>
+            <block type="flee_ennemy"></block>
+            <block type="attack_closest_ennemy"></block>
+            <block type="attack_weakest_ennemy"></block>
+            <block type="attack_strongest_ennemy"></block>
+        </category>
+
+        <category name="Reflexion">
+            <block type="wet_feet"></block>
+            <block type="current_hitpoints"></block>
+            <block type="ennemy_attack_range"></block>
+            <block type="can_move_forward"></block>
+            <block type="can_move_backward"></block>
+            <block type="can_move_left"></block>
+            <block type="can_move_right"></block>
+        </category>
+    </xml>
+
+    <script>
+        var demoWorkspace = Blockly.inject('blocklyDiv',
+            {
+                media: 'media/',
+                toolbox: document.getElementById('toolbox'),
+                sounds: false
+            });
+
+        actionBlock('move_forward', 'Move forward', 'Tooltip', 50);
+        actionBlock('move_backward', 'Move backward', 'Tooltip', 50);
+        actionBlock('move_left', 'Move to the left', 'Tooltip', 50);
+        actionBlock('move_right', 'Move to the right', 'Tooltip', 50);
+        actionBlock('move_center', 'Move toward the center', 'Tooltip', 50);
+        actionBlock('move_closest_opponent', 'Move toward the closest opponent', 'Tooltip', 50);
+
+        actionBlock('approach_ennemy', 'Approach the closest ennemy', 'Tooltip', 250);
+        actionBlock('flee_ennemy', 'Flee the closest ennemy', 'Tooltip', 250);
+        actionBlock('attack_closest_ennemy', 'Attack the closest ennemy in range', 'Tooltip', 250);
+        actionBlock('attack_weakest_ennemy', 'Attack the weakest ennemy in range', 'Tooltip', 250);
+        actionBlock('attack_strongest_ennemy', 'Attack the strongest ennemy in range', 'Tooltip', 250);
+
+        questionBlock('wet_feet', 'Boolean', 'My feet are wet', 'Tooltip');
+        questionBlock('current_hitpoints', 'Number', 'My hit points', 'Tooltip');
+        questionBlock('ennemy_attack_range', 'Boolean', 'I am in attack range of an enemy', 'Tooltip');
+        questionBlock('can_move_forward', 'Boolean', 'I can move forward', 'Tooltip');
+        questionBlock('can_move_backward', 'Boolean', 'I can move backward', 'Tooltip');
+        questionBlock('can_move_left', 'Boolean', 'I can move left', 'Tooltip');
+        questionBlock('can_move_right', 'Boolean', 'I can move right', 'Tooltip');
+
+        function questionBlock(blockType, outputType, label, tooltip) {
+            Blockly.Blocks[blockType] = {
+                init: function () {
+                    this.appendDummyInput().appendField(label);
+                    this.setOutput(true, outputType)
+                    this.setColour(160);
+                    this.setTooltip(tooltip);
+                }
+            };
+        }
+
+        function actionBlock(blockType, label, tooltip, colour) {
+            Blockly.Blocks[blockType] = {
+                init: function () {
+                    this.setPreviousStatement(true);
+                    this.appendDummyInput().appendField(label);
+                    this.setColour(colour);
+                    this.setTooltip(tooltip);
+                }
+            };
+        }
+
+        function printXml() {
+            console.log(buildXml());
+        }
+
+        function buildXml() {
+            var xmlDom = Blockly.Xml.workspaceToDom(demoWorkspace);
+            return Blockly.Xml.domToPrettyText(xmlDom);
+        }
+
+    </script>
+</body>
+</html>

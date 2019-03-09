@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ShowWaterCup.Services.Models.Blockly
 {
-    public class ActionBlock
+    public class ActionBlock : AbstractBlock
     {
-        
+        public ActionBlock (string arg)
+        {
+            Type = arg;
+        }
     }
 }
