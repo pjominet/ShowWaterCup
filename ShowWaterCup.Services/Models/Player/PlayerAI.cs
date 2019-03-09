@@ -9,6 +9,9 @@ namespace ShowWaterCup.Services.Models.Player
         private PlayerInstance _player;
         private List<PlayerAIStep> _aiSteps;
 
+        public int AiId { get; set; }
+        public int PlayerId { get; set; }
+
         public PlayerAI(PlayerInstance player)
         {
             _player = player;

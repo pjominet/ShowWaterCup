@@ -9,5 +9,11 @@ namespace ShowWaterCup.Services.Models.Player
         public PlayerAI PlayerAI { get; set; }
         public ICollection<PlayerAIStep> AISteps { get; set; }
         public PlayerAIStep ParentAIStep { get; set; }
+
+        public int AiId { get; set; }
+        public int? ParentStepId { get; set; }
+        public int ActionTypeId { get; set; }
+        public int PlayerAIStepId { get; set; }
+
     }
 }
