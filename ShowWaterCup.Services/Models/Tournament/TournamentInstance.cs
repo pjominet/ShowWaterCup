@@ -8,12 +8,12 @@ namespace ShowWaterCup.Services.Models.Tournament
     public class TournamentInstance
     {
         public const int MAX_ROUNDS = 50; // keep it simple at the beginning
-        private List<Round> Rounds { get; set; }
+        private List<Round> PlayedRounds { get; set; }
         private List<PlayerInstance> Players { get; set; }
 
         public TournamentInstance()
         {
-            Rounds = new List<Round>();
+            PlayedRounds = new List<Round>();
             // mock players
             Players = new List<PlayerInstance>
             {
@@ -28,38 +28,22 @@ namespace ShowWaterCup.Services.Models.Tournament
             {
                 var round = new Round
                 {
-                    ArenaMap = i == 0 ? new ArenaMap() : Rounds.Last().ArenaMap
+                    ArenaMap = i == 0 ? new ArenaMap() : PlayedRounds.Last().ArenaMap
                 };
 
                 if (i % 5 == 0)
                 {
                     round.ArenaMap.Flood();
                 }
-
-                // mock turns
-//                round.RoundActions = new List<RoundAction>
-//                {
-//                    new RoundAction
-//                    {
-//                        PlayerId = 1, ActionType = ActionType.Move, TargetPosition = new MapPosition(1, 1)
-//                    },
-//                    new RoundAction
-//                    {
-//                        PlayerId = 2, ActionType = ActionType.Move, TargetPosition = new MapPosition(10, 10)
-//                    }
-//                };
                 
                 // actual player turns
                 round.RoundActions = new List<RoundAction>();
                 foreach (var player in Players)
                 {
-                    foreach (var action in player.Play())
-                    {
-                        round.RoundActions.Add(action);
-                    }
+                    round.RoundActions.AddRange(player.Play());
                 }
 
-                Rounds.Add(round);
+                PlayedRounds.Add(round);
             }
         }
     }

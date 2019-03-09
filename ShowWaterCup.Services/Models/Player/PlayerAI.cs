@@ -10,26 +10,19 @@ namespace ShowWaterCup.Services.Models.Player
     public class PlayerAI
     {
         private readonly PlayerInstance _player;
-        private List<PlayerAIStep> _aiSteps;
         private ArenaMap Map { get; set; }
 
         public PlayerAI(PlayerInstance player)
         {
             _player = player;
-            _aiSteps = new List<PlayerAIStep>();
         }
 
         public RoundAction Play()
         {
             if (IsDead()) 
                 return null;
-            var action = new RoundAction
-            {
-                PlayerId = _player.PlayerId,
-                ActionType = ActionType.Move,
-                Direction = Direction.Down,
-            };
-
+            
+            var action = getAction();
             switch (action.ActionType)
             {
                 case ActionType.Move:
@@ -108,7 +101,7 @@ namespace ShowWaterCup.Services.Models.Player
 
         public void Flee()
         {
-            var direction = GetFlightDirection();
+            var direction = GetEscapeDirection();
             Move(direction);
         }
         
@@ -132,7 +125,7 @@ namespace ShowWaterCup.Services.Models.Player
 
         #region helpers
 
-        private PlayerInstance GetClosetEnemy()
+        private PlayerInstance GetClosestEnemy()
         {
             var allEnemyPosition = new List<MapPosition>();
             // traverse ViewRadius
@@ -213,7 +206,7 @@ namespace ShowWaterCup.Services.Models.Player
         
         private Direction GetAttackDirection()
         {
-            var enemy = GetClosetEnemy();
+            var enemy = GetClosestEnemy();
             if (enemy == null) 
                 return Direction.None;
             
@@ -221,9 +214,9 @@ namespace ShowWaterCup.Services.Models.Player
             return AdvanceDirection(angle);
         }
 
-        private Direction GetFlightDirection()
+        private Direction GetEscapeDirection()
         {
-            var enemy = GetClosetEnemy();
+            var enemy = GetClosestEnemy();
             if (enemy == null)
                 return Direction.None;
                     
@@ -253,6 +246,18 @@ namespace ShowWaterCup.Services.Models.Player
             var angle = GetAngle(_player.Position, freeField);
 
             return AdvanceDirection(angle);
+        }
+        
+        // Get action from XML Action Parser
+        private RoundAction getAction() 
+        {
+            // mock action
+            return new RoundAction
+            {
+                PlayerId = _player.PlayerId,
+                ActionType = ActionType.Move,
+                Direction = Direction.Down,
+            };
         }
 
         #endregion

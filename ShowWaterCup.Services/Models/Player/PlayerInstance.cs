@@ -40,7 +40,7 @@ namespace ShowWaterCup.Services.Models.Player
                     actions.Add(action);
             }
 
-            return actions.Count > 0 ? actions : null;
+            return actions;
         }
     }
 }
