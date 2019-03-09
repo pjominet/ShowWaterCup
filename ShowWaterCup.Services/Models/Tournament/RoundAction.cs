@@ -7,7 +7,7 @@ namespace ShowWaterCup.Services.Models.Tournament
     {
         public int PlayerId { get; set; }
         public ActionType ActionType { get; set; }
-        public PlayerPosition Target { get; set; }
+        public MapPosition Target { get; set; }
         public Direction Direction { get; set; }
     }
 }

@@ -18,31 +18,8 @@ namespace ShowWaterCup.Controllers
         // GET api/values/5
         public TournamentInstance Get(int id)
         {
-            var roundActions = new List<RoundAction>
-            {
-                new RoundAction
-                {
-                    PlayerId = 1,
-                    ActionType = ActionType.Move,
-                    Target = new PlayerPosition(1, 1)
-                },
-                new RoundAction
-                {
-                    PlayerId = 2,
-                    ActionType = ActionType.Move,
-                    Target = new PlayerPosition(10, 10)
-                }
-            };
-            var tournament = new TournamentInstance
-            {
-                Rounds = new List<Round>
-                {
-                    {new Round
-                    {
-                        RoundActions = roundActions
-                    }}
-                }
-            };
+            var tournament = new TournamentInstance();
+            tournament.LaunchTournament();
             return tournament;
         }
 
