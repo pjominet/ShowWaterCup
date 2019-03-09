@@ -258,9 +258,47 @@ namespace ShowWaterCup.Services.Models.Player
             return new RoundAction
             {
                 PlayerId = _player.PlayerId,
-                ActionType = ActionType.Move,
-                Direction = Direction.Down,
+                ActionType = GetRandomActiontType(),
+                Direction = GetRandomDirection(),
             };
+        }
+        
+        #endregion
+
+        #region mocking
+
+        private Direction GetRandomDirection()
+        {
+            var rnd = new Random();
+            switch (rnd.Next(1, 4))
+            {
+                case 1:
+                    return Direction.Down;
+                case 2:
+                    return Direction.Left;
+                case 3:
+                    return Direction.Right;
+                case 4:
+                    return Direction.Up;
+                default:
+                    return Direction.None;
+            }
+        }
+
+        private ActionType GetRandomActiontType()
+        {
+            var rnd = new Random();
+            switch (rnd.Next(1, 3))
+            {
+                case 1:
+                    return ActionType.Move;
+                case 2:
+                    return ActionType.MoveCenter;
+                case 3:
+                    return ActionType.Flee;
+                default:
+                    return ActionType.Move;
+            }
         }
 
         #endregion
