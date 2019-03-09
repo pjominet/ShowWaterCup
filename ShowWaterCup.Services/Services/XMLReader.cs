@@ -19,25 +19,45 @@ namespace ShowWaterCup.Services.Services
             document.LoadXml(xmlPayload);
            
             XmlNode firstChild = document.FirstChild;
-            ConditionalBlock previousBlock = Parse(firstChild);
+            ConditionalBlock previousBlock = ParseConditionalBlock(firstChild);
             AI aI = new AI { FirstBlock = previousBlock };
             XmlNode node = firstChild.NextSibling;
             while (node != null)
             {
-                ConditionalBlock newBlock = Parse(node);
+                ConditionalBlock newBlock = ParseConditionalBlock(node);
                 previousBlock.NextBlock = newBlock;
                 previousBlock = newBlock;
                 node = firstChild.NextSibling;
-            }
+            }                
                 
-                
-            return null;
+            return aI;
         }
 
-        private ConditionalBlock Parse(XmlNode node)
+        private ConditionalBlock ParseConditionalBlock(XmlNode node)
         {
             ConditionalBlock conditionalBlock = new ConditionalBlock();
-            conditionalBlock.NextBlock = new ConditionalBlock();
+            conditionalBlock.Value = new Value()
+            {
+                Name = "IF",
+                Block = new LogicalBlock()
+                {
+                    Type = "logic_compare",
+                    Field = new Field()
+                    {
+                        Content = "",
+                        FieldName = "",
+                        FieldType = ""
+                    },
+                    LeftValue = new Value()
+                    {
+
+                    },
+                    RightValue = new Value()
+                    {
+
+                    }
+                }
+            };
 
             return conditionalBlock;
         }
