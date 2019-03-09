@@ -8,8 +8,8 @@ namespace ShowWaterCup.Services.Models.Tournament
     public class TournamentInstance
     {
         public const int MAX_ROUNDS = 50; // keep it simple at the beginning
-        private List<Round> PlayedRounds { get; set; }
-        private List<PlayerInstance> Players { get; set; }
+        public List<Round> PlayedRounds { get; set; }
+        public List<PlayerInstance> Players { get; set; }
 
         public TournamentInstance()
         {
@@ -35,7 +35,7 @@ namespace ShowWaterCup.Services.Models.Tournament
                 {
                     round.ArenaMap.Flood();
                 }
-                
+
                 // actual player turns
                 round.RoundActions = new List<RoundAction>();
                 foreach (var player in Players)
