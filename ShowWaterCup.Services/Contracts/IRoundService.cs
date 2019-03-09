@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ShowWaterCup.Services.Entities;
+using ShowWaterCup.Services.Models.Tournament;
+using Entities = ShowWaterCup.Services.Entities;
 
 namespace ShowWaterCup.Services.Contracts
 {

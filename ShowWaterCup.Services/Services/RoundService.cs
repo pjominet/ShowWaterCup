@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShowWaterCup.Services.Contracts;
-using ShowWaterCup.Services.Entities;
 using ShowWaterCup.Services.Repositories;
+using ShowWaterCup.Services.Models.Tournament;
+using Entities = ShowWaterCup.Services.Entities;
+using AutoMapper;
 
 namespace ShowWaterCup.Services.Services
 {
@@ -21,20 +23,22 @@ namespace ShowWaterCup.Services.Services
 
         public int CreateRound(Round round)
         {
-            _roundRepository.Add(round);
+            var entity = Mapper.Map<Entities.Round>(round);
+            _roundRepository.Add(entity);
             _roundRepository.SaveChanges();
-            return round.RoundId;
-        }
-        
+            return entity.RoundId;
+        }        
 
         public Round GetRound(int roundId)
         {
-            return _roundRepository.GetFirst<Round>(r => r.RoundId == roundId);
+            var round = _roundRepository.GetFirst<Entities.Round>(r => r.RoundId == roundId);
+            return Mapper.Map<Round>(round);
         }
 
         public IEnumerable<Round> GetRounds(int tournamentId)
         {
-            return _roundRepository.GetAll<Round>(r => r.TournamentId == tournamentId);
+            var rounds = _roundRepository.GetAll<Entities.Round>(r => r.TournamentId == tournamentId);
+            return Mapper.Map<IEnumerable<Round>>(rounds);
         }
     }
 }
