@@ -57,5 +57,20 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="nomenclature\" />
+    <Folder Include="nomenclature\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="swc\" />
+    <Folder Include="swc\Tables\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="nomenclature\Tables\ActionType.sql" />
+    <Content Include="nomenclature\Tables\Character.sql" />
+    <Content Include="Security\nomenclature.sql" />
+    <Content Include="Security\swc.sql" />
+    <Content Include="Security\wwc.sql" />
+    <Content Include="swc\Tables\Player.sql" />
+    <Content Include="swc\Tables\PlayerIA.sql" />
+    <Content Include="swc\Tables\PlayerIAStep.sql" />
   </ItemGroup>
 </Project>

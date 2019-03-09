@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using ShowWaterCup.Services.Models;
 using ShowWaterCup.Services.Models.Enums;
+using ShowWaterCup.Services.Models.Player;
+using ShowWaterCup.Services.Models.Tournament;
 
 namespace ShowWaterCup.Controllers
 {
@@ -15,7 +16,7 @@ namespace ShowWaterCup.Controllers
         }
 
         // GET api/values/5
-        public Tournament Get(int id)
+        public TournamentInstance Get(int id)
         {
             var roundActions = new List<RoundAction>
             {
@@ -23,16 +24,16 @@ namespace ShowWaterCup.Controllers
                 {
                     PlayerId = 1,
                     ActionType = ActionType.Move,
-                    Target = "A2"
+                    Target = new PlayerPosition(1, 1)
                 },
                 new RoundAction
                 {
                     PlayerId = 2,
                     ActionType = ActionType.Move,
-                    Target = "I10"
+                    Target = new PlayerPosition(10, 10)
                 }
             };
-            var tournament = new Tournament
+            var tournament = new TournamentInstance
             {
                 Rounds = new List<Round>
                 {

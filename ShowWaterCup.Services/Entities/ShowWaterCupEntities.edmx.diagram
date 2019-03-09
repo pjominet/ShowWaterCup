@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="3a2c88c66c73406f9c25e984c30a89cf" Name="Diagram1">
         <EntityTypeShape EntityType="ShowWaterCupModel.ActionType" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShowWaterCupModel.Character" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Character" Width="1.5" PointX="0.5" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ShowWaterCupModel.Player" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ShowWaterCupModel.PlayerAI" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ShowWaterCupModel.PlayerAIStep" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
