@@ -13,3 +13,7 @@ ShowWaterCupDB/ShowWaterCupDB.sqlproj.user
 ShowWaterCupDB/Import Schema Logs
 ShowWaterCupDB/ShowWaterCupDB.dbmdl
 ShowWaterCupDB/ShowWaterCupDB.jfm
+canvas-libs/target
+canvas-libs/.idea
+canvas-libs/.nrepl-port
+canvas-libs/.shadow-cljs
