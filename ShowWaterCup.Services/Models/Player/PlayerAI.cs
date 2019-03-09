@@ -10,17 +10,19 @@ namespace ShowWaterCup.Services.Models.Player
 {
     public class PlayerAI
     {
-        private AI _aI;
+        private AI _parsedXmlAi;
         private readonly PlayerInstance _player;
         private ArenaMap Map { get; set; }
+        
+        private static int seed = 1;
 
         public int AiId { get; set; }
         public int PlayerId { get; set; }
 
-        public PlayerAI(PlayerInstance player, AI aI)
+        public PlayerAI(PlayerInstance player, AI parsedXmlAi)
         {
             _player = player;
-            _aI = aI;
+            _parsedXmlAi = parsedXmlAi;
         }
 
         private bool GetBoolValue(Value value)
@@ -130,7 +132,7 @@ namespace ShowWaterCup.Services.Models.Player
             
             var action = GetAction();
 
-            var playerAction = EvaluateBlock(_aI.FirstBlock);
+            //var playerAction = EvaluateBlock(_parsedXmlAi.FirstBlock);
             switch (action.ActionType)
             {
                 case ActionType.Move:
@@ -363,7 +365,7 @@ namespace ShowWaterCup.Services.Models.Player
             return new RoundAction
             {
                 PlayerId = _player.PlayerId,
-                ActionType = GetRandomActiontType(),
+                ActionType = GetRandomActionType(),
                 Direction = GetRandomDirection(),
             };
         }
@@ -374,8 +376,9 @@ namespace ShowWaterCup.Services.Models.Player
 
         private Direction GetRandomDirection()
         {
-            var rnd = new Random();
-            switch (rnd.Next(1, 4))
+            var rnd = new Random(seed++);
+            var result = rnd.Next(4);
+            switch (result)
             {
                 case 1:
                     return Direction.Down;
@@ -390,10 +393,11 @@ namespace ShowWaterCup.Services.Models.Player
             }
         }
 
-        private ActionType GetRandomActiontType()
+        private ActionType GetRandomActionType()
         {
-            var rnd = new Random();
-            switch (rnd.Next(1, 3))
+            var rnd = new Random(seed++);
+            var result = rnd.Next(3);
+            switch (result)
             {
                 case 1:
                     return ActionType.Move;
