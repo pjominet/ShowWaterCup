@@ -116,6 +116,7 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\PlayerAIRepository.cs" />
     <Compile Include="Repositories\PlayerAIStepRepository.cs" />
+    <Compile Include="Repositories\RoundActionRepository.cs" />
     <Compile Include="Repositories\RoundRepository.cs" />
     <Compile Include="Repositories\TournamentRepository.cs" />
     <Compile Include="Services\RoundActionService.cs" />
