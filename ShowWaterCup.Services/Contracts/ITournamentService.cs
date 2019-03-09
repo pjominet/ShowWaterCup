@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ShowWaterCup.Services.Entities;
+using ShowWaterCup.Services.Models.Tournament;
+using Entities = ShowWaterCup.Services.Entities;
 
 namespace ShowWaterCup.Services.Contracts
 {
     public interface ITournamentService
     {
-        Tournament GetTournament(int tournamentId);
-        IEnumerable<Tournament> GetTournaments();
-        int CreateTournament(Tournament tournament);
+        TournamentInstance GetTournament(int tournamentId);
+        IEnumerable<TournamentInstance> GetTournaments();
+        int CreateTournament(TournamentInstance tournament);
     }
 }
