@@ -17,8 +17,8 @@ namespace ShowWaterCup.Services.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Player()
         {
+            this.RoundActions = new HashSet<RoundAction>();
             this.PlayerAIs = new HashSet<PlayerAI>();
-            this.Actions = new HashSet<Action>();
         }
     
         public int Id { get; set; }
@@ -31,10 +31,10 @@ namespace ShowWaterCup.Services.Entities
     
         public virtual Character Character { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlayerAI> PlayerAIs { get; set; }
+        public virtual ICollection<RoundAction> RoundActions { get; set; }
         public virtual PlayerAI PlayerAI { get; set; }
         public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Action> Actions { get; set; }
+        public virtual ICollection<PlayerAI> PlayerAIs { get; set; }
     }
 }

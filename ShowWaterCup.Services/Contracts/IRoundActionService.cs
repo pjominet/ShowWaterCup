@@ -7,10 +7,10 @@ using ShowWaterCup.Services.Entities;
 
 namespace ShowWaterCup.Services.Contracts
 {
-    public interface IActionService
+    public interface IRoundActionService
     {
-        Entities.Action GetAction(int actionId);
-        IEnumerable<Entities.Action> GetActions(int roundId);
-        int CreateAction(Entities.Action action);
+        RoundAction GetAction(int actionId);
+        IEnumerable<RoundAction> GetActions(int roundId);
+        int CreateAction(RoundAction action);
     }
 }

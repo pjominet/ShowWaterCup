@@ -12,19 +12,16 @@ namespace ShowWaterCup.Services.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Round
+    public partial class RoundAction
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Round()
-        {
-            this.RoundActions = new HashSet<RoundAction>();
-        }
-    
+        public int ActionId { get; set; }
+        public int PlayerId { get; set; }
+        public int ActionTypeId { get; set; }
+        public string Target { get; set; }
         public int RoundId { get; set; }
-        public int TournamentId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoundAction> RoundActions { get; set; }
-        public virtual Tournament Tournament { get; set; }
+        public virtual ActionType ActionType { get; set; }
+        public virtual Player Player { get; set; }
+        public virtual Round Round { get; set; }
     }
 }

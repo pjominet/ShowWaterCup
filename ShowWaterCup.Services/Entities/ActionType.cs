@@ -17,16 +17,16 @@ namespace ShowWaterCup.Services.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ActionType()
         {
+            this.RoundActions = new HashSet<RoundAction>();
             this.PlayerAISteps = new HashSet<PlayerAIStep>();
-            this.Actions = new HashSet<Action>();
         }
     
         public int ActionTypeId { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlayerAIStep> PlayerAISteps { get; set; }
+        public virtual ICollection<RoundAction> RoundActions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Action> Actions { get; set; }
+        public virtual ICollection<PlayerAIStep> PlayerAISteps { get; set; }
     }
 }
