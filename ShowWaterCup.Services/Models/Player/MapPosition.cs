@@ -1,5 +1,6 @@
 using System.Numerics;
 using ShowWaterCup.Services.Models.Enums;
+using ShowWaterCup.Services.Models.Tournament;
 
 namespace ShowWaterCup.Services.Models.Player
 {
@@ -7,9 +8,9 @@ namespace ShowWaterCup.Services.Models.Player
     {
         public int X { get; set; }
         public int Y { get; set; }
-        
+
         public FieldType FieldType { get; set; }
-        
+
         public PlayerInstance Occupant { get; set; }
 
         public MapPosition(int x, int y)
@@ -19,26 +20,40 @@ namespace ShowWaterCup.Services.Models.Player
             FieldType = FieldType.Dirt;
         }
 
-        public bool IsOutOfBounds(Direction direction)
+        public bool MovementOutOfBounds(Direction direction)
         {
             switch (direction)
             {
                 case Direction.Up:
                     return Y < 1;
                 case Direction.Down:
-                    return Y > 10;
+                    return Y > ArenaMap.ARENA_SIZE;
                 case Direction.Left:
                     return X < 1;
                 case Direction.Right:
-                    return X > 10;
+                    return X > ArenaMap.ARENA_SIZE;
+                case Direction.None:
+                    goto default;
                 default:
                     return false;
             }
         }
 
-        public bool IsOccupied()
+        public static bool IsOutOfBounds(MapPosition position)
         {
-            return Occupant.Position.Equals(this);
+            return position.Y < 0 || position.Y > ArenaMap.ARENA_SIZE ||
+                   position.X < 0 || position.X > ArenaMap.ARENA_SIZE;
+        }
+
+        public static bool IsOccupied(MapPosition position)
+        {
+            return position.Occupant != null;
+        }
+
+
+        public Vector2 DistanceAsVector()
+        {
+            return new Vector2(X, Y);
         }
 
         public override bool Equals(object obj)
@@ -48,9 +63,12 @@ namespace ShowWaterCup.Services.Models.Player
             else return false;
         }
 
-        public Vector2 Transform()
+        public override int GetHashCode()
         {
-            return new Vector2(X, Y);
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
         }
     }
 }

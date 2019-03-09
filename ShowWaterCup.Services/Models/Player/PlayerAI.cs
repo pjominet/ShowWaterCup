@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Numerics;
 using ShowWaterCup.Services.Models.Enums;
 using ShowWaterCup.Services.Models.Tournament;
@@ -9,8 +9,9 @@ namespace ShowWaterCup.Services.Models.Player
 {
     public class PlayerAI
     {
-        private PlayerInstance _player;
+        private readonly PlayerInstance _player;
         private List<PlayerAIStep> _aiSteps;
+        private ArenaMap Map { get; set; }
 
         public PlayerAI(PlayerInstance player)
         {
@@ -20,27 +21,31 @@ namespace ShowWaterCup.Services.Models.Player
 
         public RoundAction Play()
         {
+            if (IsDead()) 
+                return null;
             var action = new RoundAction
             {
                 PlayerId = _player.PlayerId,
                 ActionType = ActionType.Move,
                 Direction = Direction.Down,
-                TargetPosition = new MapPosition(_player.Position.X, _player.Position.Y -= 1)
             };
 
             switch (action.ActionType)
             {
                 case ActionType.Move:
-                    Move(action.TargetPosition, action.Direction);
+                    Move(action.Direction);
                     break;
                 case ActionType.CloseIn:
-                    CloseIn(action.TargetPosition);
+                    CloseIn();
                     break;
                 case ActionType.Flee:
-                    Flee(action.TargetPosition);
+                    Flee();
                     break;
                 case ActionType.Attack:
                     Attack(action.TargetPosition);
+                    break;
+                case ActionType.MoveCenter:
+                    MoveToCenter();
                     break;
                 default:
                     break;
@@ -49,34 +54,67 @@ namespace ShowWaterCup.Services.Models.Player
             return action;
         }
 
+        #region ai_status
+
+        public bool WetFeet()
+        {
+            return _player.Position.FieldType == FieldType.Water;
+        }
+
+        public bool IsDead()
+        {
+            return _player.Hitpoints <= 0;
+        }
+
+        #endregion
+
         #region ai_moves
 
-        public void Move(MapPosition newPosition, Direction direction)
+        public void Move(Direction direction)
         {
-            if (newPosition.IsOutOfBounds(direction)
-                && !newPosition.IsOccupied()
-                && _player.ActionPoints > 0)
+            var newPosition = _player.Position;
+            switch (direction)
+            {
+                case Direction.Up:
+                    newPosition.Y -= 1;
+                    break;
+                case Direction.Down:
+                    newPosition.Y += 1;
+                    break;
+                case Direction.Left:
+                    newPosition.X -= 1;
+                    break;
+                case Direction.Right:
+                    newPosition.X += 1;
+                    break;
+                case Direction.None:
+                    goto default;
+                default:
+                    break;
+            }
+            
+            if (newPosition.MovementOutOfBounds(direction) && !MapPosition.IsOccupied(newPosition) && _player.ActionPoints > 0)
             {
                 _player.Position = newPosition;
                 _player.ActionPoints -= 1;
             }
         }
 
-        public void CloseIn(MapPosition newPosition)
+        public void CloseIn()
         {
             var direction = GetAttackDirection();
-            Move(newPosition, direction);
+            Move(direction);
         }
 
-        public void Flee(MapPosition newPosition)
+        public void Flee()
         {
             var direction = GetFlightDirection();
-            Move(newPosition, direction);
+            Move(direction);
         }
         
         public void Attack(MapPosition targetPosition)
         {
-            if (targetPosition.IsOccupied() && _player.ActionPoints > 0)
+            if (MapPosition.IsOccupied(targetPosition) && _player.ActionPoints > 0)
             {
                 var target = targetPosition.Occupant;
                 target.Hitpoints -= 1;
@@ -84,6 +122,12 @@ namespace ShowWaterCup.Services.Models.Player
             }
         }
 
+        public void MoveToCenter()
+        {
+            var direction = GetCenterDirection();
+            Move(direction);
+        }
+        
         #endregion
 
         #region helpers
@@ -91,30 +135,42 @@ namespace ShowWaterCup.Services.Models.Player
         private PlayerInstance GetClosetEnemy()
         {
             var allEnemyPosition = new List<MapPosition>();
-            foreach (var field in _player.ViewRadius)
+            // traverse ViewRadius
+            for (var i = 1; i <= _player.ViewRadius; i++)
             {
-                if (field.IsOccupied())
-                    allEnemyPosition.Add(field);
+                for (var j = 1; j <= _player.ViewRadius; j++)
+                {
+                    var x = _player.Position.X - _player.ViewRadius + i;
+                    var y = _player.Position.Y - _player.ViewRadius + j;
+                    var inspectedPosition = new MapPosition(x, y);
+                    if (!MapPosition.IsOutOfBounds(inspectedPosition))
+                    {
+                        var field = Map.GetField(x, y);
+                        if (MapPosition.IsOccupied(field))
+                            allEnemyPosition.Add(field);
+                    }
+                }
             }
 
-            allEnemyPosition.Sort((origin, position) =>
-                (int) (Vector2.Distance(position.Transform(), origin.Transform()) * 100));
+            if (allEnemyPosition.Count > 0)
+            {
+                allEnemyPosition.Sort((origin, position) =>
+                    (int) (Vector2.Distance(position.DistanceAsVector(), origin.DistanceAsVector()) * 100));
+                return allEnemyPosition[0].Occupant;
+            }
 
-            return allEnemyPosition[0].Occupant;
+            return null;
         }
         
-        private double GetAngle(PlayerInstance player, PlayerInstance enemy)
+        private double GetAngle(MapPosition pos1, MapPosition pos2)
         {
-            float deltaX = enemy.Position.X - _player.Position.X;
-            float deltaY = enemy.Position.Y - _player.Position.Y;
+            float deltaX = pos2.X - pos1.X;
+            float deltaY = pos2.Y - pos1.Y;
             return Math.Atan2(deltaY, deltaX) * 180.0 / Math.PI;
         }
-        
-        private Direction GetAttackDirection()
-        {
-            var enemy = GetClosetEnemy();
-            var angle = GetAngle(_player, enemy);
 
+        private Direction AdvanceDirection(double angle)
+        {
             var direction = Direction.Up;
             if (angle >= 45 && angle < 135)
             {
@@ -134,11 +190,8 @@ namespace ShowWaterCup.Services.Models.Player
             return direction;
         }
 
-        private Direction GetFlightDirection()
+        private Direction RetreatDirection(double angle)
         {
-            var enemy = GetClosetEnemy();
-            var angle = GetAngle(_player, enemy);
-                
             var direction = Direction.Down;
             if (angle >= 45 && angle < 135)
             {
@@ -156,6 +209,50 @@ namespace ShowWaterCup.Services.Models.Player
             }
 
             return direction;
+        }
+        
+        private Direction GetAttackDirection()
+        {
+            var enemy = GetClosetEnemy();
+            if (enemy == null) 
+                return Direction.None;
+            
+            var angle = GetAngle(_player.Position, enemy.Position);
+            return AdvanceDirection(angle);
+        }
+
+        private Direction GetFlightDirection()
+        {
+            var enemy = GetClosetEnemy();
+            if (enemy == null)
+                return Direction.None;
+                    
+            var angle = GetAngle(_player.Position, enemy.Position);
+            return RetreatDirection(angle);
+        }
+
+        private IEnumerable<MapPosition> MapCenter()
+        {
+            var centerCoords = ArenaMap.ARENA_SIZE / 2;
+
+            var mapCenter = new List<MapPosition>
+            {
+                new MapPosition(centerCoords, centerCoords),
+                new MapPosition(centerCoords + 1, centerCoords),
+                new MapPosition(centerCoords, centerCoords + 1),
+                new MapPosition(centerCoords + 1, centerCoords + 1)
+            };
+
+            return mapCenter;
+        }
+
+        private Direction GetCenterDirection()
+        {
+            var centerFields = MapCenter();
+            var freeField = centerFields.First(t => MapPosition.IsOccupied(t) == false);
+            var angle = GetAngle(_player.Position, freeField);
+
+            return AdvanceDirection(angle);
         }
 
         #endregion

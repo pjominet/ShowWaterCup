@@ -7,12 +7,19 @@ namespace ShowWaterCup.Services.Models.Tournament
 {
     public class TournamentInstance
     {
-        public const int MAX_ROUNDS = 100;
-        public List<Round> Rounds { get; set; }
+        public const int MAX_ROUNDS = 50; // keep it simple at the beginning
+        private List<Round> Rounds { get; set; }
+        private List<PlayerInstance> Players { get; set; }
 
         public TournamentInstance()
         {
             Rounds = new List<Round>();
+            // mock players
+            Players = new List<PlayerInstance>
+            {
+                new PlayerInstance(1,"Player1", Character.Char1, 5, new MapPosition(1,1), ArenaMap.ARENA_SIZE),
+                new PlayerInstance(2,"Player2", Character.Char2, 5, new MapPosition(20,20), ArenaMap.ARENA_SIZE)
+            }; 
         }
 
         public void LaunchTournament()
@@ -29,20 +36,28 @@ namespace ShowWaterCup.Services.Models.Tournament
                     round.ArenaMap.Flood();
                 }
 
+                // mock turns
+//                round.RoundActions = new List<RoundAction>
+//                {
+//                    new RoundAction
+//                    {
+//                        PlayerId = 1, ActionType = ActionType.Move, TargetPosition = new MapPosition(1, 1)
+//                    },
+//                    new RoundAction
+//                    {
+//                        PlayerId = 2, ActionType = ActionType.Move, TargetPosition = new MapPosition(10, 10)
+//                    }
+//                };
+                
+                // actual player turns
                 round.RoundActions = new List<RoundAction>();
-
-                round.RoundActions.Add(new RoundAction
+                foreach (var player in Players)
                 {
-                    PlayerId = 1,
-                    ActionType = ActionType.Move,
-                    TargetPosition = new MapPosition(1, 1)
-                });
-                round.RoundActions.Add(new RoundAction
-                {
-                    PlayerId = 2,
-                    ActionType = ActionType.Move,
-                    TargetPosition = new MapPosition(10, 10)
-                });
+                    foreach (var action in player.Play())
+                    {
+                        round.RoundActions.Add(action);
+                    }
+                }
 
                 Rounds.Add(round);
             }

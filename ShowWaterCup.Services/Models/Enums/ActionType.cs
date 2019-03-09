@@ -5,6 +5,7 @@ namespace ShowWaterCup.Services.Models.Enums
         Move,
         CloseIn,
         Flee,
-        Attack
+        Attack,
+        MoveCenter
     }
 }

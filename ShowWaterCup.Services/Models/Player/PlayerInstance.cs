@@ -14,31 +14,33 @@ namespace ShowWaterCup.Services.Models.Player
         public MapPosition Position { get; set; }
         public int ActionPoints { get; set; }
         
-        public List<MapPosition> ViewRadius { get; set; }
+        public int ViewRadius { get; set; }
         
         private PlayerAI _playerAi { get; set; }
 
-        public PlayerInstance(string name, Character character, int hitpoints, MapPosition position, List<MapPosition> viewRadius)
+        public PlayerInstance(int playerId, string name, Character character, int hitpoints, MapPosition position, int viewRadius)
         {
+            PlayerId = playerId;
             Name = name;
             Character = character;
             Hitpoints = hitpoints;
             Position = position;
-            ActionPoints = 2;
+            ActionPoints = 1; // to make testing easier
             _playerAi = new PlayerAI(this);
             ViewRadius = viewRadius;
         }
 
         public List<RoundAction> Play()
         {
-            var rounds = new List<RoundAction>();
+            var actions = new List<RoundAction>();
             for (var i = 0; i < ActionPoints; i++)
             {
-                rounds.Add(_playerAi.Play());
+                var action = _playerAi.Play();
+                if (action != null)
+                    actions.Add(action);
             }
 
-            return rounds;
+            return actions.Count > 0 ? actions : null;
         }
-        
     }
 }
