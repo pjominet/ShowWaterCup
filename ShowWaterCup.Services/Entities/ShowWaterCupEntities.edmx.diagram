@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3a2c88c66c73406f9c25e984c30a89cf" Name="Diagram1">
-        <EntityTypeShape EntityType="ShowWaterCupModel.ActionType" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.ActionType" Width="1.5" PointX="11.375" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ShowWaterCupModel.Character" Width="1.5" PointX="0.5" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ShowWaterCupModel.Player" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ShowWaterCupModel.PlayerAI" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
@@ -18,13 +18,13 @@
         <AssociationConnector Association="ShowWaterCupModel.FK__Player__AiId__59FA5E80" />
         <EntityTypeShape EntityType="ShowWaterCupModel.Position" Width="1.5" PointX="0.75" PointY="5.875" />
         <AssociationConnector Association="ShowWaterCupModel.FK__Player__Position__59063A47" />
-        <EntityTypeShape EntityType="ShowWaterCupModel.Action" Width="1.5" PointX="7.5" PointY="4.875" />
-        <EntityTypeShape EntityType="ShowWaterCupModel.Round" Width="1.5" PointX="5.25" PointY="8.375" />
-        <EntityTypeShape EntityType="ShowWaterCupModel.Tournament" Width="1.5" PointX="3" PointY="8.375" />
-        <AssociationConnector Association="ShowWaterCupModel.FK__Action__ActionTy__6383C8BA" />
-        <AssociationConnector Association="ShowWaterCupModel.FK__Action__PlayerId__628FA481" />
-        <AssociationConnector Association="ShowWaterCupModel.FK__Action__RoundId__6477ECF3" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Round" Width="1.5" PointX="7.75" PointY="5" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.Tournament" Width="1.5" PointX="5" PointY="5.25" />
         <AssociationConnector Association="ShowWaterCupModel.FK__Round__Tournamen__5FB337D6" />
+        <EntityTypeShape EntityType="ShowWaterCupModel.RoundAction" Width="1.5" PointX="10.5" PointY="4.5" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Action__ActionTy__6383C8BA1" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Action__PlayerId__628FA4811" />
+        <AssociationConnector Association="ShowWaterCupModel.FK__Action__RoundId__6477ECF31" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

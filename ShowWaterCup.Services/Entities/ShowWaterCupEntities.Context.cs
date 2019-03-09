@@ -31,8 +31,8 @@ namespace ShowWaterCup.Services.Entities
         public virtual DbSet<PlayerAI> PlayerAIs { get; set; }
         public virtual DbSet<PlayerAIStep> PlayerAISteps { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
-        public virtual DbSet<Action> Actions { get; set; }
         public virtual DbSet<Round> Rounds { get; set; }
         public virtual DbSet<Tournament> Tournaments { get; set; }
+        public virtual DbSet<RoundAction> RoundActions { get; set; }
     }
 }
