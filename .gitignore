@@ -6,7 +6,7 @@ ShowWaterCup/obj
 ShowWaterCup/ShowWaterCup.csproj.user
 ShowWaterCup.Services/bin
 ShowWaterCup.Services/obj
-ShowWaterCup.Services/
+ShowWaterCup.Services/ShowWaterCup.Services.csproj.user
 ShowWaterCupDB/obj
 ShowWaterCupDB/bin
 ShowWaterCupDB/ShowWaterCupDB.sqlproj.user
