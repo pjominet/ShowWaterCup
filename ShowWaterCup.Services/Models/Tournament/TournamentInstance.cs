@@ -35,13 +35,13 @@ namespace ShowWaterCup.Services.Models.Tournament
                 {
                     PlayerId = 1,
                     ActionType = ActionType.Move,
-                    Target = new MapPosition(1, 1)
+                    TargetPosition = new MapPosition(1, 1)
                 });
                 round.RoundActions.Add(new RoundAction
                 {
                     PlayerId = 2,
                     ActionType = ActionType.Move,
-                    Target = new MapPosition(10, 10)
+                    TargetPosition = new MapPosition(10, 10)
                 });
 
                 Rounds.Add(round);
