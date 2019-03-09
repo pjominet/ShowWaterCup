@@ -13,8 +13,6 @@ namespace ShowWaterCup.Services.Models.Player
         private AI _parsedXmlAi;
         private readonly PlayerInstance _player;
         private ArenaMap Map { get; set; }
-        
-        private static int seed = 1;
 
         public int AiId { get; set; }
         public int PlayerId { get; set; }
@@ -25,114 +23,16 @@ namespace ShowWaterCup.Services.Models.Player
             _parsedXmlAi = parsedXmlAi;
         }
 
-        private bool GetBoolValue(Value value)
+        public RoundAction Play(Random rnd)
         {
-            AbstractBlock block = value.Block;
-            if (block.Type.Equals("logic_boolean"))
-                return Boolean.Parse(((FieldBlock)block).Field.Content);
-            
-            else if (block.Type.Equals("wet_feet"))            
-                return true;
-            
-            else if (block.Type.Equals("ennemy_attack_range"))            
-                return true;
-            
-            else
-                return false;
-        }
-
-        private int GetNumericValue(Value value)
-        {
-            AbstractBlock block = value.Block;
-            if (block.Type.Equals("math_number"))
-                return int.Parse(((FieldBlock)value.Block).Field.Content);
-            
-            else if (block.Type.Equals("current_hitpoints"))            
-                return 42;
-            
-            else
-                return 42;
-            
-        }
-
-        private bool EvaluateLogical(LogicalBlock logicalBlock)
-        {
-            if (logicalBlock.Field.Content.Contains("AND"))            
-                return GetBoolValue(logicalBlock.LeftValue) && GetBoolValue(logicalBlock.RightValue);
-            
-            else if(logicalBlock.Field.Content.Contains("OR"))            
-                return GetBoolValue(logicalBlock.LeftValue) || GetBoolValue(logicalBlock.RightValue);
-            
-            else if (logicalBlock.Field.Content.Contains("GT"))            
-                return GetNumericValue(logicalBlock.LeftValue) > GetNumericValue(logicalBlock.RightValue);
-            
-            else if (logicalBlock.Field.Content.Contains("LT"))            
-                return GetNumericValue(logicalBlock.LeftValue) < GetNumericValue(logicalBlock.RightValue);
-
-            else if (logicalBlock.Field.Content.Contains("GTE"))
-                return GetNumericValue(logicalBlock.LeftValue) >= GetNumericValue(logicalBlock.RightValue);
-
-            else if (logicalBlock.Field.Content.Contains("LTE"))
-                return GetNumericValue(logicalBlock.LeftValue) <= GetNumericValue(logicalBlock.RightValue);
-
-            else if (logicalBlock.Field.Content.Contains("NEQ"))
-                return GetNumericValue(logicalBlock.LeftValue) != GetNumericValue(logicalBlock.RightValue);
-
-            else            
-                return GetNumericValue(logicalBlock.LeftValue) == GetNumericValue(logicalBlock.RightValue);            
-        }
-
-        private string EvaluateConditional(ConditionalBlock conditionalBlock)
-        {
-            if (EvaluateLogical((LogicalBlock) conditionalBlock.Value.Block))
-                return EvaluateBlock(conditionalBlock.OnSuccess);
-            else
-                return EvaluateBlock(conditionalBlock.Default);
-        }
-
-        private string EvaluateBlock(AbstractBlock block)
-        {
-            string type = block.Type;
-
-            switch (type)
-            {
-                case "controls_if":
-                    return EvaluateConditional((ConditionalBlock) block);
-                case "move_forward":
-                    return "move_forward";                    
-                case "move_backward":
-                    return "move_backward";
-                case "move_right":
-                    return "move_right";
-                case "move_left":
-                    return "move_left";
-                case "move_center":
-                    return "move_center";
-                case "move_closest_opponent":
-                    return "move_closest_opponent";
-                case "approach_ennemy":
-                    return "approach_ennemy";
-                case "flee_ennemy":
-                    return "flee_ennemy";
-                case "attack_closest_ennemy":
-                    return "attack_closest_ennemy";
-                case "attack_weakest_ennemy":
-                    return "attack_weakest_ennemy";
-                case "attack_strongest_ennemy":
-                    return "attack_strongest_ennemy";
-                default:
-                    return "move_center";
-            }         
-        }                
-
-        public RoundAction Play()
-        {
-            if (IsDead()) 
+            if (IsDead())
                 return null;
-            
-            var action = GetAction();
 
+            var action = GetAction(rnd);
+
+            // TODO: Fix null pointer exception
             //var playerAction = EvaluateBlock(_parsedXmlAi.FirstBlock);
+
             switch (action.ActionType)
             {
                 case ActionType.Move:
@@ -195,8 +95,9 @@ namespace ShowWaterCup.Services.Models.Player
                 default:
                     break;
             }
-            
-            if (newPosition.MovementOutOfBounds(direction) && !MapPosition.IsOccupied(newPosition) && _player.ActionPoints > 0)
+
+            if (newPosition.MovementOutOfBounds(direction) && !MapPosition.IsOccupied(newPosition) &&
+                _player.ActionPoints > 0)
             {
                 _player.Position = newPosition;
                 _player.ActionPoints -= 1;
@@ -214,7 +115,7 @@ namespace ShowWaterCup.Services.Models.Player
             var direction = GetEscapeDirection();
             Move(direction);
         }
-        
+
         public void Attack(MapPosition targetPosition)
         {
             if (MapPosition.IsOccupied(targetPosition) && _player.ActionPoints > 0)
@@ -230,7 +131,108 @@ namespace ShowWaterCup.Services.Models.Player
             var direction = GetCenterDirection();
             Move(direction);
         }
-        
+
+        #endregion
+
+        #region blockly logic
+
+        private bool GetBoolValue(Value value)
+        {
+            var block = value.Block;
+            if (block.Type.Equals("logic_boolean"))
+                return bool.Parse(((FieldBlock) block).Field.Content);
+
+            else if (block.Type.Equals("wet_feet"))
+                return true;
+
+            else if (block.Type.Equals("ennemy_attack_range"))
+                return true;
+
+            else
+                return false;
+        }
+
+        private int GetNumericValue(Value value)
+        {
+            var block = value.Block;
+            if (block.Type.Equals("math_number"))
+                return int.Parse(((FieldBlock) value.Block).Field.Content);
+
+            else if (block.Type.Equals("current_hitpoints"))
+                return 42;
+
+            else
+                return 42;
+        }
+
+        private bool EvaluateLogical(LogicalBlock logicalBlock)
+        {
+            if (logicalBlock.Field.Content.Contains("AND"))
+                return GetBoolValue(logicalBlock.LeftValue) && GetBoolValue(logicalBlock.RightValue);
+
+            if (logicalBlock.Field.Content.Contains("OR"))
+                return GetBoolValue(logicalBlock.LeftValue) || GetBoolValue(logicalBlock.RightValue);
+
+            if (logicalBlock.Field.Content.Contains("GT"))
+                return GetNumericValue(logicalBlock.LeftValue) > GetNumericValue(logicalBlock.RightValue);
+
+            if (logicalBlock.Field.Content.Contains("LT"))
+                return GetNumericValue(logicalBlock.LeftValue) < GetNumericValue(logicalBlock.RightValue);
+
+            if (logicalBlock.Field.Content.Contains("GTE"))
+                return GetNumericValue(logicalBlock.LeftValue) >= GetNumericValue(logicalBlock.RightValue);
+
+            if (logicalBlock.Field.Content.Contains("LTE"))
+                return GetNumericValue(logicalBlock.LeftValue) <= GetNumericValue(logicalBlock.RightValue);
+
+            if (logicalBlock.Field.Content.Contains("NEQ"))
+                return GetNumericValue(logicalBlock.LeftValue) != GetNumericValue(logicalBlock.RightValue);
+
+            return GetNumericValue(logicalBlock.LeftValue) == GetNumericValue(logicalBlock.RightValue);
+        }
+
+        private string EvaluateConditional(ConditionalBlock conditionalBlock)
+        {
+            return EvaluateBlock(EvaluateLogical((LogicalBlock) conditionalBlock.Value.Block)
+                ? conditionalBlock.OnSuccess
+                : conditionalBlock.Default);
+        }
+
+        private string EvaluateBlock(AbstractBlock block)
+        {
+            var type = block.Type;
+
+            switch (type)
+            {
+                case "controls_if":
+                    return EvaluateConditional((ConditionalBlock) block);
+                case "move_forward":
+                    return "move_forward";
+                case "move_backward":
+                    return "move_backward";
+                case "move_right":
+                    return "move_right";
+                case "move_left":
+                    return "move_left";
+                case "move_center":
+                    return "move_center";
+                case "move_closest_opponent":
+                    return "move_closest_opponent";
+                case "approach_ennemy":
+                    return "approach_ennemy";
+                case "flee_ennemy":
+                    return "flee_ennemy";
+                case "attack_closest_ennemy":
+                    return "attack_closest_ennemy";
+                case "attack_weakest_ennemy":
+                    return "attack_weakest_ennemy";
+                case "attack_strongest_ennemy":
+                    return "attack_strongest_ennemy";
+                default:
+                    return "move_center";
+            }
+        }
+
         #endregion
 
         #region helpers
@@ -264,7 +266,7 @@ namespace ShowWaterCup.Services.Models.Player
 
             return null;
         }
-        
+
         private double GetAngle(MapPosition pos1, MapPosition pos2)
         {
             float deltaX = pos2.X - pos1.X;
@@ -313,13 +315,13 @@ namespace ShowWaterCup.Services.Models.Player
 
             return direction;
         }
-        
+
         private Direction GetAttackDirection()
         {
             var enemy = GetClosestEnemy();
-            if (enemy == null) 
+            if (enemy == null)
                 return Direction.None;
-            
+
             var angle = GetAngle(_player.Position, enemy.Position);
             return AdvanceDirection(angle);
         }
@@ -329,7 +331,7 @@ namespace ShowWaterCup.Services.Models.Player
             var enemy = GetClosestEnemy();
             if (enemy == null)
                 return Direction.None;
-                    
+
             var angle = GetAngle(_player.Position, enemy.Position);
             return RetreatDirection(angle);
         }
@@ -357,26 +359,25 @@ namespace ShowWaterCup.Services.Models.Player
 
             return AdvanceDirection(angle);
         }
-        
+
         // Get action from XML Action Parser
-        private RoundAction GetAction() 
+        private RoundAction GetAction(Random rnd)
         {
             // mock action
             return new RoundAction
             {
                 PlayerId = _player.PlayerId,
-                ActionType = GetRandomActionType(),
-                Direction = GetRandomDirection(),
+                ActionType = GetRandomActionType(rnd),
+                Direction = GetRandomDirection(rnd),
             };
         }
-        
+
         #endregion
 
         #region mocking
 
-        private Direction GetRandomDirection()
+        private Direction GetRandomDirection(Random rnd)
         {
-            var rnd = new Random(seed++);
             var result = rnd.Next(4);
             switch (result)
             {
@@ -393,9 +394,8 @@ namespace ShowWaterCup.Services.Models.Player
             }
         }
 
-        private ActionType GetRandomActionType()
+        private ActionType GetRandomActionType(Random rnd)
         {
-            var rnd = new Random(seed++);
             var result = rnd.Next(3);
             switch (result)
             {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ShowWaterCup.Services.Models.Enums;
@@ -24,6 +25,7 @@ namespace ShowWaterCup.Services.Models.Tournament
 
         public void LaunchTournament()
         {
+            var rnd = new Random();
             for (var i = 0; i < MAX_ROUNDS; i++)
             {
                 var round = new Round
@@ -40,7 +42,8 @@ namespace ShowWaterCup.Services.Models.Tournament
                 round.RoundActions = new List<RoundAction>();
                 foreach (var player in Players)
                 {
-                    round.RoundActions.AddRange(player.Play());
+                    player.ActionPoints = 1;
+                    round.RoundActions.AddRange(player.Play(rnd));
                 }
 
                 PlayedRounds.Add(round);

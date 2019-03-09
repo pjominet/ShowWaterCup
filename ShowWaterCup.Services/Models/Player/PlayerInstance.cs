@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ShowWaterCup.Services.Models.Enums;
 using ShowWaterCup.Services.Models.Tournament;
@@ -30,12 +31,12 @@ namespace ShowWaterCup.Services.Models.Player
             ViewRadius = viewRadius;
         }
 
-        public List<RoundAction> Play()
+        public List<RoundAction> Play(Random rnd)
         {
             var actions = new List<RoundAction>();
             for (var i = 0; i < ActionPoints; i++)
             {
-                var action = _playerAi.Play();
+                var action = _playerAi.Play(rnd);
                 if (action != null)
                     actions.Add(action);
             }
