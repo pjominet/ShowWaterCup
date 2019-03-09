@@ -25,8 +25,8 @@ namespace ShowWaterCup.Services.Models.Player
             Character = character;
             Hitpoints = hitpoints;
             Position = position;
+            _playerAi = new PlayerAI(this, null);
             ActionPoints = 1; // to make testing easier
-            _playerAi = new PlayerAI(this);
             ViewRadius = viewRadius;
         }
 

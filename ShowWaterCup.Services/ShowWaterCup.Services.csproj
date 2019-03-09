@@ -104,25 +104,30 @@
       <DependentUpon>ShowWaterCupEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\AutoMapperConfiguration.cs" />
-    <Compile Include="Models\Blockly\Block.cs" />
+    <Compile Include="Models\Blockly\AbstractBlock.cs" />
+    <Compile Include="Models\Blockly\ActionBlock.cs" />
+    <Compile Include="Models\Blockly\AI.cs" />
+    <Compile Include="Models\Blockly\BlockEvaluationResult.cs" />
+    <Compile Include="Models\Blockly\ConditionalBlock.cs" />
+    <Compile Include="Models\Blockly\FieldBlock.cs" />
+    <Compile Include="Models\Blockly\Keyword.cs" />
+    <Compile Include="Models\Blockly\LogicalBlock.cs" />
+    <Compile Include="Models\Blockly\Mutation.cs" />
     <Compile Include="Models\Engine\TournamentEngine.cs" />
     <Compile Include="Models\Enums\ActionType.cs" />
     <Compile Include="Models\Enums\Character.cs" />
     <Compile Include="Models\Enums\Direction.cs" />
-    <Compile Include="Models\Blockly\Field.cs" />
-    <Compile Include="Models\Blockly\Next.cs" />
-    <Compile Include="Models\Enums\FieldType.cs" />
-    <Compile Include="Models\Player\PlayerAI.cs" />
-    <Compile Include="Models\Player\PlayerAIStep.cs" />
-    <Compile Include="Models\Player\PlayerInstance.cs" />
-    <Compile Include="Models\Player\MapPosition.cs" />
-    <Compile Include="Models\Blockly\Statement.cs" />
+    <Compile Include="Models\Blockly\Field.cs" />  
+    <Compile Include="Models\Enums\FieldType.cs" />  
+    <Compile Include="Models\Player\PlayerAI.cs" />  
+    <Compile Include="Models\Player\PlayerAIStep.cs" />  
+    <Compile Include="Models\Player\PlayerInstance.cs" />  
+    <Compile Include="Models\Player\MapPosition.cs" />    
     <Compile Include="Models\Tournament\ArenaMap.cs" />
     <Compile Include="Models\Tournament\Round.cs" />
     <Compile Include="Models\Tournament\RoundAction.cs" />
     <Compile Include="Models\Tournament\TournamentInstance.cs" />
     <Compile Include="Models\Blockly\Value.cs" />
-    <Compile Include="Models\Blockly\Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\PlayerAIRepository.cs" />
@@ -135,7 +140,7 @@
     <Compile Include="Services\PlayerAIStepService.cs" />
     <Compile Include="Services\RoundService.cs" />
     <Compile Include="Services\TournamentService.cs" />
-    <Compile Include="Services\XMLSerializer.cs" />
+    <Compile Include="Services\XMLReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

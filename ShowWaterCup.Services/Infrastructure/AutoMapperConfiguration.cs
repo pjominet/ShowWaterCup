@@ -28,7 +28,7 @@ namespace ShowWaterCup.Services.Infrastructure
                 cfg.CreateMap<Models.Player.PlayerAI, Entities.PlayerAI>();
 
                 cfg.CreateMap<Entities.PlayerAIStep, Models.Player.PlayerAIStep>();
-                cfg.CreateMap<Models.Player.PlayerAIStep, Entities.PlayerAIStep>();
+                cfg.CreateMap<Models.Player.PlayerAIStep, Entities.PlayerAIStep>();                
 
                 cfg.CreateMap<Entities.Position, Models.Player.MapPosition>();
                 cfg.CreateMap<Models.Player.MapPosition, Entities.Position>();

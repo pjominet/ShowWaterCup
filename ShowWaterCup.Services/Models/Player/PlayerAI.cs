@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ShowWaterCup.Services.Models.Blockly;
 using System.Linq;
 using System.Numerics;
 using ShowWaterCup.Services.Models.Enums;
@@ -9,16 +10,118 @@ namespace ShowWaterCup.Services.Models.Player
 {
     public class PlayerAI
     {
+        private AI _aI;
         private readonly PlayerInstance _player;
         private ArenaMap Map { get; set; }
 
         public int AiId { get; set; }
         public int PlayerId { get; set; }
 
-        public PlayerAI(PlayerInstance player)
+        public PlayerAI(PlayerInstance player, AI aI)
         {
             _player = player;
+            _aI = aI;
         }
+
+        private bool GetBoolValue(Value value)
+        {
+            AbstractBlock block = value.Block;
+            if (block.Type.Equals("logic_boolean"))
+                return Boolean.Parse(((FieldBlock)block).Field.Content);
+            
+            else if (block.Type.Equals("wet_feet"))            
+                return true;
+            
+            else if (block.Type.Equals("ennemy_attack_range"))            
+                return true;
+            
+            else
+                return false;
+        }
+
+        private int GetNumericValue(Value value)
+        {
+            AbstractBlock block = value.Block;
+            if (block.Type.Equals("math_number"))
+                return int.Parse(((FieldBlock)value.Block).Field.Content);
+            
+            else if (block.Type.Equals("current_hitpoints"))            
+                return 42;
+            
+            else
+                return 42;
+            
+        }
+
+        private bool EvaluateLogical(LogicalBlock logicalBlock)
+        {
+            if (logicalBlock.Field.Content.Contains("AND"))            
+                return GetBoolValue(logicalBlock.LeftValue) && GetBoolValue(logicalBlock.RightValue);
+            
+            else if(logicalBlock.Field.Content.Contains("OR"))            
+                return GetBoolValue(logicalBlock.LeftValue) || GetBoolValue(logicalBlock.RightValue);
+            
+            else if (logicalBlock.Field.Content.Contains("GT"))            
+                return GetNumericValue(logicalBlock.LeftValue) > GetNumericValue(logicalBlock.RightValue);
+            
+            else if (logicalBlock.Field.Content.Contains("LT"))            
+                return GetNumericValue(logicalBlock.LeftValue) < GetNumericValue(logicalBlock.RightValue);
+
+            else if (logicalBlock.Field.Content.Contains("GTE"))
+                return GetNumericValue(logicalBlock.LeftValue) >= GetNumericValue(logicalBlock.RightValue);
+
+            else if (logicalBlock.Field.Content.Contains("LTE"))
+                return GetNumericValue(logicalBlock.LeftValue) <= GetNumericValue(logicalBlock.RightValue);
+
+            else if (logicalBlock.Field.Content.Contains("NEQ"))
+                return GetNumericValue(logicalBlock.LeftValue) != GetNumericValue(logicalBlock.RightValue);
+
+            else            
+                return GetNumericValue(logicalBlock.LeftValue) == GetNumericValue(logicalBlock.RightValue);            
+        }
+
+        private string EvaluateConditional(ConditionalBlock conditionalBlock)
+        {
+            if (EvaluateLogical((LogicalBlock) conditionalBlock.Value.Block))
+                return EvaluateBlock(conditionalBlock.OnSuccess);
+            else
+                return EvaluateBlock(conditionalBlock.Default);
+        }
+
+        private string EvaluateBlock(AbstractBlock block)
+        {
+            string type = block.Type;
+
+            switch (type)
+            {
+                case "controls_if":
+                    return EvaluateConditional((ConditionalBlock) block);
+                case "move_forward":
+                    return "move_forward";                    
+                case "move_backward":
+                    return "move_backward";
+                case "move_right":
+                    return "move_right";
+                case "move_left":
+                    return "move_left";
+                case "move_center":
+                    return "move_center";
+                case "move_closest_opponent":
+                    return "move_closest_opponent";
+                case "approach_ennemy":
+                    return "approach_ennemy";
+                case "flee_ennemy":
+                    return "flee_ennemy";
+                case "attack_closest_ennemy":
+                    return "attack_closest_ennemy";
+                case "attack_weakest_ennemy":
+                    return "attack_weakest_ennemy";
+                case "attack_strongest_ennemy":
+                    return "attack_strongest_ennemy";
+                default:
+                    return "move_center";
+            }         
+        }                
 
         public RoundAction Play()
         {
@@ -26,6 +129,8 @@ namespace ShowWaterCup.Services.Models.Player
                 return null;
             
             var action = GetAction();
+
+            var playerAction = EvaluateBlock(_aI.FirstBlock);
             switch (action.ActionType)
             {
                 case ActionType.Move:
